@@ -225,10 +225,13 @@ export default function HomeTab() {
           <p className="text-foreground-muted mt-2">The architects of Season 1</p>
         </div>
 
-        <div className="w-full overflow-hidden flex justify-center">
-          <div className="scale-[0.65] sm:scale-[0.8] md:scale-100 origin-top">
-            <FranchiseWheel managers={MANAGERS} S={440} cx={220} cy={220} r={170} band={100} logoSize={150} />
-          </div>
+        {/* Mobile wheel */}
+        <div className="md:hidden flex justify-center">
+          <FranchiseWheel managers={MANAGERS} S={360} cx={180} cy={180} r={138} band={80} logoSize={120} />
+        </div>
+        {/* Desktop wheel */}
+        <div className="hidden md:flex justify-center">
+          <FranchiseWheel managers={MANAGERS} S={440} cx={220} cy={220} r={170} band={100} logoSize={150} />
         </div>
       </section>
 
