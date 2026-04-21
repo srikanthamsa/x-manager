@@ -4,7 +4,7 @@ import { Check, ChevronRight } from 'lucide-react'
 import { TEAMS } from '../../data/teams'
 import { TEAM_PLAYERS } from '../../data/matches'
 
-const EASE = [0.16, 1, 0.3, 1]
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 // Logged-in user is Srikant / RCB
 const MY_TEAM = TEAMS.RCB

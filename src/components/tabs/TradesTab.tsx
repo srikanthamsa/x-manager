@@ -65,7 +65,7 @@ const MARKET_PLAYERS: MarketPlayer[] = [
 
 
 type SubTab = 'offers' | 'market'
-const EASE = [0.16, 1, 0.3, 1];
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function TradesTab() {
   const [subTab, setSubTab] = useState<SubTab>('offers')
@@ -121,7 +121,7 @@ export default function TradesTab() {
             transition={{ duration: 0.3, ease: EASE }}
             className="space-y-px bg-white/[0.02] border border-white/[0.03] rounded-[2rem] overflow-hidden"
           >
-            {TRADE_OFFERS.map((offer, i) => (
+            {TRADE_OFFERS.map((offer) => (
               <div 
                 key={offer.id} 
                 className="bg-bg-base p-8 md:p-10 flex flex-col lg:flex-row lg:items-center gap-8 md:gap-12 group hover:bg-white/[0.02] transition-colors duration-500 border-b border-white/[0.02] last:border-0"
@@ -187,7 +187,7 @@ export default function TradesTab() {
             transition={{ duration: 0.3, ease: EASE }}
             className="space-y-px bg-white/[0.02] border border-white/[0.03] rounded-[2rem] overflow-hidden"
           >
-            {MARKET_PLAYERS.map((player, i) => (
+            {MARKET_PLAYERS.map((player) => (
               <div 
                 key={player.id} 
                 className="bg-bg-base px-8 py-10 lg:px-10 lg:py-8 flex flex-col lg:flex-row lg:items-center justify-between gap-8 lg:gap-12 group hover:bg-white/[0.02] transition-colors duration-500 border-b border-white/[0.02] last:border-0"

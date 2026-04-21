@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
-import { Trophy, Zap, ArrowRight, Star } from 'lucide-react'
+import { motion } from 'motion/react'
+import { Zap, ArrowRight } from 'lucide-react'
 import trophyImg from '../../assets/trophy.png'
 import { TEAMS } from '../../data/teams'
 import { MATCHES, NEXT_MATCH } from '../../data/matches'
@@ -20,7 +20,7 @@ const MANAGERS = Object.values(TEAMS).map(team => ({
 
 const COMPLETED = MATCHES.filter(m => m.status === 'completed').slice(0, 3).reverse()
 
-const EASE = [0.16, 1, 0.3, 1];
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 interface WheelProps {
   managers: typeof MANAGERS
@@ -247,7 +247,7 @@ export default function HomeTab() {
         </div>
 
         <div className="space-y-px bg-white/[0.03] rounded-3xl overflow-hidden border border-white/[0.03]">
-          {COMPLETED.map((match, i) => (
+          {COMPLETED.map((match) => (
             <div
               key={match.id}
               className="bg-bg-base px-6 py-5 flex items-center justify-between group hover:bg-white/[0.02] transition-colors duration-500"

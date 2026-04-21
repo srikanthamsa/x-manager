@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { motion, useMotionTemplate, useMotionValue } from 'motion/react';
 
 interface SpotlightCardProps {

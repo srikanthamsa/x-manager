@@ -12,7 +12,7 @@ const statusLabel: Record<string, string> = {
   completed: 'Final Result',
 }
 
-const EASE = [0.16, 1, 0.3, 1];
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function FixturesTab() {
   const [filter, setFilter] = useState<'all' | 'upcoming' | 'completed'>('all')

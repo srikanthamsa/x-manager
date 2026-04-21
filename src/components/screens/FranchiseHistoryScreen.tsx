@@ -3,7 +3,7 @@ import { Crown, Shield, Star, Trophy } from 'lucide-react'
 import trophyImg from '../../assets/trophy.png'
 import { MATCHES } from '../../data/matches'
 
-const EASE = [0.16, 1, 0.3, 1]
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 interface Manager {
   name: string

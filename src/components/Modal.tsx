@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { X, ChevronLeft } from 'lucide-react'
 
-const EASE = [0.16, 1, 0.3, 1]
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 interface ModalProps {
   open: boolean

@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { TrendingUp, Info } from 'lucide-react'
+import { Info } from 'lucide-react'
 import { TEAMS } from '../../data/teams'
 
 interface TeamStanding {
@@ -24,7 +24,7 @@ const STANDINGS: TeamStanding[] = [
   { rank: 5, team: TEAMS.MI.shortName, fullName: TEAMS.MI.name, manager: TEAMS.MI.manager, color: TEAMS.MI.color, logo: TEAMS.MI.logo, played: 0, won: 0, lost: 0, nrr: '+0.000', points: 0 },
 ]
 
-const EASE = [0.16, 1, 0.3, 1];
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function StandingsTab() {
   return (

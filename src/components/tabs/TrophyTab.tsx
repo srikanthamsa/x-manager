@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { Trophy, Medal, Star, Crown, Lock, Shield, ArrowRight, TrendingUp, Eye } from 'lucide-react'
+import { Trophy, Star, Crown, Lock, Shield, ArrowRight, TrendingUp, Eye } from 'lucide-react'
 import trophyImg from '../../assets/trophy.png'
 import { TEAMS } from '../../data/teams'
 import Modal from '../Modal'
@@ -35,7 +35,7 @@ const DEMO_ACHIEVEMENTS: ManagerAchievement[] = [
   { ...TEAMS.SRH, trophies: 0, runnerUp: 1, mvpAwards: 2 },
 ]
 
-const EASE = [0.16, 1, 0.3, 1];
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function TrophyTab() {
   const [demo, setDemo] = useState(false)

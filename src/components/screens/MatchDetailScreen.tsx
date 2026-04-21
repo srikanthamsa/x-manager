@@ -3,7 +3,7 @@ import { MapPin, CheckCircle2, Clock } from 'lucide-react'
 import type { Match } from '../../data/matches'
 import { TEAM_PLAYERS } from '../../data/matches'
 
-const EASE = [0.16, 1, 0.3, 1]
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 interface Props { match: Match }
 

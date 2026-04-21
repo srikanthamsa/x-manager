@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import { ArrowRight, Trophy } from 'lucide-react'
 import { MATCHES, type Match } from '../../data/matches'
 
-const EASE = [0.16, 1, 0.3, 1]
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 interface Props {
   onSelectMatch: (match: Match) => void

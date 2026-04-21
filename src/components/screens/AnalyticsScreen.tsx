@@ -2,7 +2,7 @@ import { motion } from 'motion/react'
 import { TrendingUp, Zap, Target } from 'lucide-react'
 import type { Match } from '../../data/matches'
 
-const EASE = [0.16, 1, 0.3, 1]
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 interface Props { match: Match }
 
@@ -113,7 +113,7 @@ export default function AnalyticsScreen({ match }: Props) {
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: match.away.color }} />
                   </div>
                 </div>
-                {stats.map((row, i) => (
+                {stats.map((row) => (
                   <div key={row.label} className="px-4 py-3.5 space-y-2 border-b border-white/[0.03] last:border-0">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-bold tabular-nums">{row.home}</span>
