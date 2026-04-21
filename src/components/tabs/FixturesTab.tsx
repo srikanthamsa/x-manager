@@ -82,22 +82,22 @@ export default function FixturesTab() {
             transition={{ delay: i * 0.04, duration: 0.6, ease: EASE }}
             className="group relative bg-bg-base hover:bg-white/[0.02] transition-all duration-500"
           >
-            <div className="px-4 py-5 flex items-center gap-3">
+            <div className="px-4 py-5 flex items-center gap-2">
               {/* Match number */}
-              <div className="shrink-0 w-10 text-center">
-                <span className="text-[10px] font-black text-foreground-muted/30 font-mono">M{match.id}</span>
+              <div className="shrink-0 w-7 text-center">
+                <span className="text-[9px] font-black text-foreground-muted/30 font-mono">M{match.id}</span>
               </div>
 
               {/* Matchup */}
-              <div className="flex-1 flex flex-row items-center gap-4 md:gap-16">
+              <div className="flex-1 flex flex-row items-center gap-3 md:gap-16">
                 {/* Home */}
-                <div className="flex items-center gap-3 md:gap-6 flex-1 justify-end">
+                <div className="flex items-center gap-2 md:gap-6 flex-1 justify-end">
                   <div className="text-right hidden md:block">
                     <p className="text-xl font-bold tracking-tight uppercase">{match.home.team}</p>
                     <p className="text-[10px] font-mono text-foreground-muted uppercase tracking-widest">{match.home.manager}</p>
                   </div>
                   <div className="flex flex-col items-center gap-1 md:hidden">
-                    <div className="w-14 h-14 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110">
+                    <div className="w-16 h-16 flex items-center justify-center transition-transform group-hover:scale-110">
                       {match.home.logo
                         ? <img src={match.home.logo} alt={match.home.team} className="w-full h-full object-contain" />
                         : <span className="text-xs font-bold">{match.home.team}</span>
@@ -120,7 +120,7 @@ export default function FixturesTab() {
                 </div>
 
                 {/* Away */}
-                <div className="flex items-center gap-3 md:gap-6 flex-1">
+                <div className="flex items-center gap-2 md:gap-6 flex-1">
                   <div className="w-24 h-24 rounded-2xl hidden md:flex items-center justify-center transition-transform group-hover:scale-110">
                     {match.away.logo
                       ? <img src={match.away.logo} alt={match.away.team} className="w-full h-full object-contain" />
@@ -128,7 +128,7 @@ export default function FixturesTab() {
                     }
                   </div>
                   <div className="flex flex-col items-center gap-1 md:hidden">
-                    <div className="w-20 h-20 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110">
+                    <div className="w-16 h-16 flex items-center justify-center transition-transform group-hover:scale-110">
                       {match.away.logo
                         ? <img src={match.away.logo} alt={match.away.team} className="w-full h-full object-contain" />
                         : <span className="text-xs font-bold">{match.away.team}</span>
