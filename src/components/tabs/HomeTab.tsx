@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'motion/react'
 import { Zap, ArrowRight } from 'lucide-react'
 import trophyImg from '../../assets/trophy.png'
@@ -29,10 +29,23 @@ interface WheelProps {
 
 function FranchiseWheel({ managers, S, cx, cy, r, band, logoSize }: WheelProps) {
   const [hovered, setHovered] = useState<number | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(1)
   const active = hovered !== null ? managers[hovered] : null
 
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const obs = new ResizeObserver(([entry]) => {
+      setScale(Math.min(1, entry.contentRect.width / S))
+    })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [S])
+
   return (
-    <div className="relative mx-auto" style={{ width: S, height: S }}>
+    <div ref={containerRef} className="w-full flex justify-center" style={{ height: S * scale }}>
+    <div className="relative origin-top" style={{ width: S, height: S, transform: `scale(${scale})` }}>
       <svg className="absolute inset-0 w-full h-full" viewBox={`0 0 ${S} ${S}`} overflow="visible">
         {hovered !== null && (() => {
           const a = (hovered * 72 - 90) * (Math.PI / 180)
@@ -97,6 +110,7 @@ function FranchiseWheel({ managers, S, cx, cy, r, band, logoSize }: WheelProps) 
           </motion.div>
         )
       })}
+    </div>
     </div>
   )
 }
@@ -225,14 +239,7 @@ export default function HomeTab() {
           <p className="text-foreground-muted mt-2">The architects of Season 1</p>
         </div>
 
-        {/* Mobile wheel */}
-        <div className="md:hidden flex justify-center">
-          <FranchiseWheel managers={MANAGERS} S={410} cx={205} cy={205} r={155} band={90} logoSize={135} />
-        </div>
-        {/* Desktop wheel */}
-        <div className="hidden md:flex justify-center">
-          <FranchiseWheel managers={MANAGERS} S={440} cx={220} cy={220} r={170} band={100} logoSize={150} />
-        </div>
+        <FranchiseWheel managers={MANAGERS} S={440} cx={220} cy={220} r={170} band={100} logoSize={150} />
       </section>
 
       {/* ── Activity Feed ── */}
