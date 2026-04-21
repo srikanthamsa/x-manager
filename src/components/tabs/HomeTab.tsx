@@ -225,7 +225,14 @@ export default function HomeTab() {
           <p className="text-foreground-muted mt-2">The architects of Season 1</p>
         </div>
 
-        <FranchiseWheel managers={MANAGERS} S={440} cx={220} cy={220} r={170} band={100} logoSize={150} />
+        {/* Mobile */}
+        <div className="md:hidden">
+          <FranchiseWheel managers={MANAGERS} S={352} cx={176} cy={176} r={136} band={80} logoSize={120} />
+        </div>
+        {/* Desktop */}
+        <div className="hidden md:block">
+          <FranchiseWheel managers={MANAGERS} S={440} cx={220} cy={220} r={170} band={100} logoSize={150} />
+        </div>
       </section>
 
       {/* ── Activity Feed ── */}
