@@ -225,10 +225,11 @@ export default function HomeTab() {
           <p className="text-foreground-muted mt-2">The architects of Season 1</p>
         </div>
 
-        {(() => {
-          const S = 440, cx = 220, cy = 220, r = 170, band = 100, logoSize = 150
-          return <FranchiseWheel managers={MANAGERS} S={S} cx={cx} cy={cy} r={r} band={band} logoSize={logoSize} />
-        })()}
+        <div className="w-full overflow-hidden flex justify-center">
+          <div className="scale-[0.65] sm:scale-[0.8] md:scale-100 origin-top">
+            <FranchiseWheel managers={MANAGERS} S={440} cx={220} cy={220} r={170} band={100} logoSize={150} />
+          </div>
+        </div>
       </section>
 
       {/* ── Activity Feed ── */}
@@ -250,37 +251,28 @@ export default function HomeTab() {
           {COMPLETED.map((match) => (
             <div
               key={match.id}
-              className="bg-bg-base px-6 py-5 flex items-center justify-between group hover:bg-white/[0.02] transition-colors duration-500"
+              className="bg-bg-base px-5 py-4 flex flex-col gap-3 group hover:bg-white/[0.02] transition-colors duration-500 border-b border-white/[0.02] last:border-0"
             >
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-12 h-12 rounded-lg flex items-center justify-center p-1.5">
-                    <img src={match.home.logo} alt={match.home.team} className="w-full h-full object-contain" />
-                  </div>
-                  <span className="text-[9px] font-mono text-foreground-muted/40 uppercase tracking-widest">vs</span>
-                  <div className="w-12 h-12 rounded-lg flex items-center justify-center p-1.5">
-                    <img src={match.away.logo} alt={match.away.team} className="w-full h-full object-contain" />
-                  </div>
+              {/* Top row: logos + match number */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <img src={match.home.logo} alt={match.home.team} className="w-9 h-9 object-contain" />
+                  <span className="text-[10px] font-bold uppercase tracking-tight">{match.home.team}</span>
+                  <span className="text-[9px] font-mono text-foreground-muted/40 uppercase tracking-widest px-1">vs</span>
+                  <span className="text-[10px] font-bold uppercase tracking-tight">{match.away.team}</span>
+                  <img src={match.away.logo} alt={match.away.team} className="w-9 h-9 object-contain" />
                 </div>
-                <div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-base font-bold tracking-tight">
-                      {match.home.team} <span className="text-foreground-muted font-normal text-xs px-1">VS</span> {match.away.team}
-                    </span>
-                    <span className="text-[10px] font-mono py-0.5 px-2 rounded bg-accent/10 text-accent uppercase tracking-widest">Result</span>
-                  </div>
-                  <p className="text-sm text-foreground-subtle mt-1">{match.result}</p>
-                </div>
+                <span className="text-[9px] font-mono text-foreground-muted/50 uppercase tracking-widest shrink-0">M{match.id}</span>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-mono text-foreground-muted uppercase tracking-widest">Match {match.id}</p>
-                <button
-                  onClick={() => setSelectedMatch(match)}
-                  className="text-[10px] font-bold text-accent opacity-0 group-hover:opacity-100 transition-opacity mt-1"
-                >
-                  Details
-                </button>
-              </div>
+              {/* Result */}
+              <p className="text-sm text-foreground-subtle leading-snug">{match.result}</p>
+              {/* Details link */}
+              <button
+                onClick={() => setSelectedMatch(match)}
+                className="self-start text-[10px] font-bold text-accent uppercase tracking-widest"
+              >
+                Details →
+              </button>
             </div>
           ))}
         </div>

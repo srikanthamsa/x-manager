@@ -26,6 +26,9 @@ export default function HlsVideo({ src, className = '', style }: HlsVideoProps) 
       })
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = src
+      video.addEventListener('loadedmetadata', () => {
+        video.play().catch(() => {})
+      })
     }
 
     return () => { if (hls) hls.destroy() }

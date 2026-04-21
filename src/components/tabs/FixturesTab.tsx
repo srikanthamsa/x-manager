@@ -6,11 +6,6 @@ import type { Match } from '../../data/matches'
 import Modal from '../Modal'
 import MatchDetailScreen from '../screens/MatchDetailScreen'
 
-const statusLabel: Record<string, string> = {
-  upcoming: 'Upcoming',
-  live: 'Live Match',
-  completed: 'Final Result',
-}
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -150,12 +145,18 @@ export default function FixturesTab() {
 
               {/* Status */}
               <div className="flex flex-col items-end gap-2 shrink-0">
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/5">
-                  <div className={`w-1 h-1 rounded-full ${match.status === 'live' ? 'bg-emerald-400 animate-pulse' : 'bg-foreground-muted'}`} />
-                  <span className={`text-[9px] font-mono uppercase tracking-widest ${match.status === 'live' ? 'text-emerald-400' : 'text-foreground-muted'}`}>
-                    {statusLabel[match.status]}
-                  </span>
-                </div>
+                {match.status === 'live' && (
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/5">
+                    <div className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[9px] font-mono uppercase tracking-widest text-emerald-400">Live</span>
+                  </div>
+                )}
+                {match.status === 'completed' && (
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-foreground-muted/50">FT</span>
+                )}
+                {match.status === 'upcoming' && (
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-foreground-muted/50">Soon</span>
+                )}
               </div>
             </div>
 
