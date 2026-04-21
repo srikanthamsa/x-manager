@@ -227,7 +227,7 @@ export default function HomeTab() {
 
         {/* Mobile wheel */}
         <div className="md:hidden flex justify-center">
-          <FranchiseWheel managers={MANAGERS} S={360} cx={180} cy={180} r={138} band={80} logoSize={120} />
+          <FranchiseWheel managers={MANAGERS} S={410} cx={205} cy={205} r={155} band={90} logoSize={135} />
         </div>
         {/* Desktop wheel */}
         <div className="hidden md:flex justify-center">
