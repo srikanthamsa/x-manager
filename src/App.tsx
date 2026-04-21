@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import HlsVideo from './components/HlsVideo'
 import BottomNav from './components/BottomNav'
@@ -14,6 +14,12 @@ export type TabId = 'home' | 'fixtures' | 'standings' | 'trades' | 'trophy'
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabId>('home')
+  const mainRef = useRef<HTMLElement>(null)
+
+  const handleTabChange = (tab: TabId) => {
+    setActiveTab(tab)
+    mainRef.current?.scrollTo({ top: 0, behavior: 'instant' })
+  }
 
   const renderTab = () => {
     switch (activeTab) {
@@ -57,7 +63,7 @@ function App() {
 
       {/* ── Content ── */}
       <div className="relative z-10 h-screen flex flex-col">
-        <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 pt-12 pb-48">
+        <main ref={mainRef} className="flex-1 overflow-y-auto overflow-x-hidden px-4 pt-12 pb-48">
           <div className="max-w-7xl mx-auto w-full">
             <AnimatePresence mode="wait">
               <motion.div
@@ -73,7 +79,7 @@ function App() {
           </div>
         </main>
 
-        <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+        <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
     </div>
   )
