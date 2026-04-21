@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #050506;
+    --foreground: #EDEDEF;
+    --accent: #5E6AD2;
+  }
+
+  body {
+    @apply bg-bg-base text-foreground antialiased selection:bg-accent/30;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  .linear-glass {
+    @apply relative bg-surface border border-white/[0.08] rounded-2xl transition-all duration-500;
+    backdrop-filter: blur(16px);
+    box-shadow: 
+      0 0 0 1px rgba(255,255,255,0.05),
+      0 10px 40px -10px rgba(0,0,0,0.5),
+      0 0 80px -10px rgba(94,106,210,0.05);
+  }
+
+  .linear-glass:hover {
+    @apply border-white/[0.15] bg-white/[0.06];
+    box-shadow: 
+      0 0 0 1px rgba(255,255,255,0.1),
+      0 20px 50px -10px rgba(0,0,0,0.6),
+      0 0 100px -10px rgba(94,106,210,0.15);
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-b from-white via-white/95 to-white/70 bg-clip-text text-transparent;
+  }
+
+  .text-accent-gradient {
+    @apply bg-gradient-to-r from-[#5E6AD2] via-indigo-400 to-[#5E6AD2] bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+}
+
+/* Background Layers */
+.bg-layers {
+  @apply fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-transparent;
+}
+
+.linear-noise {
+  @apply absolute inset-0 opacity-[0.015] bg-noise;
+}
+
+.linear-grid {
+  @apply absolute inset-0 bg-grid opacity-[0.02];
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+}
+
+.bg-blob {
+  @apply absolute rounded-full mix-blend-screen filter blur-[120px] animate-float opacity-20;
+}
+
