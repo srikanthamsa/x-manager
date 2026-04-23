@@ -137,26 +137,24 @@ function getMatchTitle(homeTeam: string, awayTeam: string, matches: Match[]): st
   const titles: string[] = [];
   const t1 = [homeTeam, awayTeam].sort().join('-');
   
-  // Specific Internet/Meme Rivalries
-  if (t1 === 'CSK-MI') titles.push('El Clasico', 'Clash of Titans', 'The Crown Battle');
-  if (t1 === 'CSK-RCB') titles.push('Southern Derby', 'Kaveri Derby', 'The Royal Battle');
-  if (t1 === 'MI-RCB') titles.push('Star Wars', 'Battle of the Big Boys');
-  if (t1 === 'KKR-RCB') titles.push('High Octane Clash', 'Fire & Ice');
-  if (t1 === 'CSK-KKR') titles.push('Champions Clash', 'Yellow vs Purple');
-  if (t1 === 'KKR-MI') titles.push('The East-West Derby');
-  if (t1 === 'RCB-SRH') titles.push('The Southern Showdown');
+  // Specific Internet/Meme Rivalries & Star Power Matchups
+  if (t1 === 'CSK-RCB') titles.push('Southern Derby', 'Royal Showdown', 'Thala vs King', 'Dhoni vs Kohli');
+  if (t1 === 'KKR-SRH') titles.push('Shoaib vs Bumrah', 'Gayle vs Hardik', 'Pace Battle', 'Cummins vs Akhtar');
+  if (t1 === 'MI-RCB') titles.push('Star Wars', 'Heavyweight Clash', 'King vs Hitman', 'Afridi vs Kapil Dev');
+  if (t1 === 'CSK-KKR') titles.push('Champion Clash', 'Purple & Gold', 'Thala vs Kung Fu', 'Dhoni vs Cummins');
+  if (t1 === 'KKR-MI') titles.push('East vs West', 'Hitman vs Hardik', 'Rohit vs Bumrah', 'Kapil vs Cummins');
   
   // Position based
   if (homeRank < 2 && awayRank < 2) {
-    titles.push('Top of the Table Clash', 'Battle for Supremacy');
+    titles.push('Top of the Table', 'For Supremacy');
   } else if (homeRank > 2 && awayRank > 2) {
-    titles.push('Survival Battle', 'Do or Die');
+    titles.push('Survival Fight', 'Do or Die');
   } else if ((homeRank === 0 && awayRank === sortedTeams.length - 1) || (homeRank === sortedTeams.length - 1 && awayRank === 0)) {
-    titles.push('David vs Goliath');
+    titles.push('David vs Goliath', 'Giant Killers?');
   }
   
   // Generics (including original)
-  titles.push('The Clash', 'The Showdown', 'Blockbuster Match', 'Face-Off', 'Epic Encounter');
+  titles.push('The Clash', 'The Showdown', 'Blockbuster', 'Face-Off', 'Epic Encounter');
   
   return titles[Math.floor(Math.random() * titles.length)] + '.';
 }
