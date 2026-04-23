@@ -140,8 +140,17 @@ export default function HomeTab() {
         className="relative overflow-hidden flex-shrink-0 h-[55vh] md:h-screen"
         style={{ minHeight: 500, width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginTop: '-3rem' }}
       >
-        {/* ─ DARK BASE ─ */}
+        {/* ─ DARK BASE — with subtle team-color foundation at edges ─ */}
         <div className="absolute inset-0 bg-[#060608]" />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `
+              linear-gradient(to right, ${NEXT_MATCH.home.color}18 0%, transparent 45%),
+              linear-gradient(to left,  ${NEXT_MATCH.away.color}18 0%, transparent 45%)
+            `
+          }}
+        />
 
         {/* ─ GREY SMOKE — cinematic depth behind players ─ */}
         <div
@@ -168,17 +177,17 @@ export default function HomeTab() {
             `
           }}
         />
-        {/* ─ ATMOSPHERIC SMOKE — away (right), full right-edge coverage ─ */}
+        {/* ─ ATMOSPHERIC SMOKE — away (right), solid-at-edge then fade ─ */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 2.5 }}
           style={{
             background: `
-              linear-gradient(to left, ${NEXT_MATCH.away.color}88 0%, ${NEXT_MATCH.away.color}55 20%, transparent 52%),
-              radial-gradient(ellipse 60% 75% at 100% 30%, ${NEXT_MATCH.away.color}66 0%, transparent 65%),
-              radial-gradient(ellipse 55% 65% at 100% 85%, ${NEXT_MATCH.away.color}88 0%, transparent 55%),
-              radial-gradient(ellipse 30% 100% at 100% 50%, ${NEXT_MATCH.away.color}55 0%, transparent 70%)
+              linear-gradient(to left, ${NEXT_MATCH.away.color} 0%, ${NEXT_MATCH.away.color}ee 2%, ${NEXT_MATCH.away.color}aa 12%, ${NEXT_MATCH.away.color}55 28%, transparent 54%),
+              radial-gradient(ellipse 55% 80% at 100% 25%, ${NEXT_MATCH.away.color}bb 0%, transparent 60%),
+              radial-gradient(ellipse 50% 70% at 100% 80%, ${NEXT_MATCH.away.color}cc 0%, transparent 55%),
+              radial-gradient(ellipse 28% 100% at 100% 50%, ${NEXT_MATCH.away.color}88 0%, transparent 65%)
             `
           }}
         />
@@ -213,19 +222,21 @@ export default function HomeTab() {
           )}
         </div>
 
-        {/* ─ COLOR TINTS — gradient fades so colors blend at center ─ */}
+        {/* ─ COLOR TINTS — player image duotone tinting ─ */}
+        {/* home: color blend for player tint */}
         <div
           className="absolute inset-0 z-[11] pointer-events-none"
           style={{
-            background: `linear-gradient(to right, ${NEXT_MATCH.home.color}80 0%, ${NEXT_MATCH.home.color}55 35%, transparent 58%)`,
+            background: `linear-gradient(to right, ${NEXT_MATCH.home.color}99 0%, ${NEXT_MATCH.home.color}66 35%, transparent 58%)`,
             mixBlendMode: 'color',
           }}
         />
+        {/* away: screen blend — adds light+color on dark bg, tints player on luminosity layer */}
         <div
           className="absolute inset-0 z-[11] pointer-events-none"
           style={{
-            background: `linear-gradient(to left, ${NEXT_MATCH.away.color}cc 0%, ${NEXT_MATCH.away.color}88 18%, ${NEXT_MATCH.away.color}44 42%, transparent 60%)`,
-            mixBlendMode: 'color',
+            background: `linear-gradient(to left, ${NEXT_MATCH.away.color}cc 0%, ${NEXT_MATCH.away.color}99 15%, ${NEXT_MATCH.away.color}55 38%, transparent 58%)`,
+            mixBlendMode: 'screen',
           }}
         />
 
