@@ -154,13 +154,13 @@ export default function HomeTab() {
             return (
           <>
           <div className="flex-1 relative overflow-hidden">
-            {/* Color glow — fades from left edge inward */}
+            {/* Color glow — transparent at top, full intensity at 50% height, stays full to bottom */}
             <motion.div
               className="absolute inset-0 pointer-events-none z-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 2 }}
-              style={{ background: `linear-gradient(to right, ${NEXT_MATCH.home.color}55 0%, ${NEXT_MATCH.home.color}18 50%, transparent 100%)` }}
+              style={{ background: `linear-gradient(to bottom, transparent 0%, ${NEXT_MATCH.home.color}44 50%, ${NEXT_MATCH.home.color}77 100%)` }}
             />
             {homePhoto && (
               <motion.img
@@ -190,36 +190,81 @@ export default function HomeTab() {
             </motion.div>
           </div>
 
-          {/* VS */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none gap-1">
-            <div className="w-px h-14 bg-gradient-to-b from-transparent via-white/15 to-transparent" />
+          {/* ── Thunder divider + VS ── */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-30 pointer-events-none">
+            {/* Electric line — full height */}
+            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 flex flex-col items-center w-[2px]">
+              {/* Line body */}
+              <motion.div
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.5) 20%, rgba(255,255,255,0.5) 80%, transparent 100%)' }}
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              {/* Core glow */}
+              <motion.div
+                className="absolute inset-0"
+                animate={{
+                  boxShadow: [
+                    '0 0 4px 2px rgba(200,220,255,0.2)',
+                    '0 0 14px 5px rgba(200,220,255,0.7)',
+                    '0 0 4px 2px rgba(200,220,255,0.2)',
+                  ],
+                }}
+                transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </div>
+
+            {/* Sparks along the line */}
+            {[15, 32, 50, 68, 84].map((top, i) => (
+              <motion.div
+                key={i}
+                className="absolute left-1/2 w-1 h-1 rounded-full bg-white"
+                style={{ top: `${top}%` }}
+                animate={{
+                  x: [0, (i % 2 === 0 ? 1 : -1) * (6 + i * 2), 0],
+                  opacity: [0, 1, 0],
+                  scale: [0.5, 2, 0],
+                }}
+                transition={{ duration: 0.9 + i * 0.15, repeat: Infinity, delay: i * 0.22, ease: 'easeOut' }}
+              />
+            ))}
+
+            {/* VS badge */}
             <motion.div
               initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.8, duration: 0.6, ease: EASE }}
-              className="flex flex-col items-center gap-0.5"
+              className="relative flex flex-col items-center gap-0.5 z-10"
             >
+              {/* Badge background */}
+              <div className="absolute inset-0 -m-3 rounded-full bg-black/60 backdrop-blur-sm" />
               <motion.span
-                className="text-2xl md:text-4xl font-black italic text-white"
-                animate={{ opacity: [0.5, 1, 0.5], textShadow: ['0 0 0px #fff', '0 0 30px rgba(255,255,255,0.4)', '0 0 0px #fff'] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                className="relative text-2xl md:text-4xl font-black italic text-white"
+                animate={{
+                  textShadow: [
+                    '0 0 8px rgba(200,220,255,0.4)',
+                    '0 0 24px rgba(200,220,255,1), 0 0 48px rgba(200,220,255,0.5)',
+                    '0 0 8px rgba(200,220,255,0.4)',
+                  ],
+                }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
               >
                 VS
               </motion.span>
-              <span className="text-[8px] font-mono text-white/25 uppercase tracking-[0.3em]">Match {NEXT_MATCH.id}</span>
+              <span className="relative text-[8px] font-mono text-white/30 uppercase tracking-[0.3em]">Match {NEXT_MATCH.id}</span>
             </motion.div>
-            <div className="w-px h-14 bg-gradient-to-b from-transparent via-white/15 to-transparent" />
           </div>
 
           {/* Away player — wants to face LEFT toward center */}
           <div className="flex-1 relative overflow-hidden">
-            {/* Color glow — fades from right edge inward */}
+            {/* Color glow — transparent at top, full intensity at 50% height, stays full to bottom */}
             <motion.div
               className="absolute inset-0 pointer-events-none z-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 2 }}
-              style={{ background: `linear-gradient(to left, ${NEXT_MATCH.away.color}55 0%, ${NEXT_MATCH.away.color}18 50%, transparent 100%)` }}
+              style={{ background: `linear-gradient(to bottom, transparent 0%, ${NEXT_MATCH.away.color}44 50%, ${NEXT_MATCH.away.color}77 100%)` }}
             />
             {awayPhoto && (
               <motion.img
