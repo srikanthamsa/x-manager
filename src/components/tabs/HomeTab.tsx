@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import { Zap, ArrowRight } from 'lucide-react'
 import trophyImg from '../../assets/trophy.png'
 import { TEAMS } from '../../data/teams'
@@ -190,45 +191,17 @@ export default function HomeTab() {
             </motion.div>
           </div>
 
-          {/* ── Thunder divider + VS ── */}
+          {/* ── Lottie divider + VS ── */}
           <div className="absolute inset-0 flex flex-col items-center justify-center z-30 pointer-events-none">
-            {/* Electric line — full height */}
-            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 flex flex-col items-center w-[2px]">
-              {/* Line body */}
-              <motion.div
-                className="absolute inset-0"
-                style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.5) 20%, rgba(255,255,255,0.5) 80%, transparent 100%)' }}
-                animate={{ opacity: [0.3, 1, 0.3] }}
-                transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              {/* Core glow */}
-              <motion.div
-                className="absolute inset-0"
-                animate={{
-                  boxShadow: [
-                    '0 0 4px 2px rgba(200,220,255,0.2)',
-                    '0 0 14px 5px rgba(200,220,255,0.7)',
-                    '0 0 4px 2px rgba(200,220,255,0.2)',
-                  ],
-                }}
-                transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
+            {/* Lottie animation — full height, centered */}
+            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 flex items-center" style={{ width: 120 }}>
+              <DotLottieReact
+                src="https://lottie.host/0bcc69c8-2106-422e-b3ac-535ba93d2845/Jah7Yhr8qI.lottie"
+                loop
+                autoplay
+                style={{ width: 120, height: '100%' }}
               />
             </div>
-
-            {/* Sparks along the line */}
-            {[15, 32, 50, 68, 84].map((top, i) => (
-              <motion.div
-                key={i}
-                className="absolute left-1/2 w-1 h-1 rounded-full bg-white"
-                style={{ top: `${top}%` }}
-                animate={{
-                  x: [0, (i % 2 === 0 ? 1 : -1) * (6 + i * 2), 0],
-                  opacity: [0, 1, 0],
-                  scale: [0.5, 2, 0],
-                }}
-                transition={{ duration: 0.9 + i * 0.15, repeat: Infinity, delay: i * 0.22, ease: 'easeOut' }}
-              />
-            ))}
 
             {/* VS badge */}
             <motion.div
@@ -237,18 +210,17 @@ export default function HomeTab() {
               transition={{ delay: 0.8, duration: 0.6, ease: EASE }}
               className="relative flex flex-col items-center gap-0.5 z-10"
             >
-              {/* Badge background */}
-              <div className="absolute inset-0 -m-3 rounded-full bg-black/60 backdrop-blur-sm" />
+              <div className="absolute inset-0 -m-4 rounded-full bg-black/50 backdrop-blur-md" />
               <motion.span
                 className="relative text-2xl md:text-4xl font-black italic text-white"
                 animate={{
                   textShadow: [
-                    '0 0 8px rgba(200,220,255,0.4)',
-                    '0 0 24px rgba(200,220,255,1), 0 0 48px rgba(200,220,255,0.5)',
-                    '0 0 8px rgba(200,220,255,0.4)',
+                    '0 0 8px rgba(255,255,255,0.3)',
+                    '0 0 24px rgba(255,255,255,0.9)',
+                    '0 0 8px rgba(255,255,255,0.3)',
                   ],
                 }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
               >
                 VS
               </motion.span>
