@@ -140,47 +140,35 @@ export default function HomeTab() {
         {/* Clash panels */}
         <div className="relative flex" style={{ height: '420px' }}>
 
-          {/* Color glows — fade inward from edges */}
-          <motion.div
-            className="absolute left-0 top-0 bottom-0 w-2/3 pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 2 }}
-            style={{ background: `linear-gradient(to right, ${NEXT_MATCH.home.color}28, transparent)` }}
-          />
-          <motion.div
-            className="absolute right-0 top-0 bottom-0 w-2/3 pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 2 }}
-            style={{ background: `linear-gradient(to left, ${NEXT_MATCH.away.color}28, transparent)` }}
-          />
-
           {/* Home player */}
           <div className="flex-1 relative overflow-hidden">
+            {/* Color glow — fades from left edge inward */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none z-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 2 }}
+              style={{ background: `linear-gradient(to right, ${NEXT_MATCH.home.color}55 0%, ${NEXT_MATCH.home.color}18 50%, transparent 100%)` }}
+            />
             {NEXT_MATCH.home.captainPhoto && (
-              <>
-                <motion.img
-                  src={NEXT_MATCH.home.captainPhoto}
-                  alt={NEXT_MATCH.home.captain ?? NEXT_MATCH.home.team}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 1.1, ease: EASE }}
-                  className="absolute bottom-0 right-0 h-full object-contain object-bottom"
-                  style={{
-                    transform: NEXT_MATCH.home.captainFacing === 'left' ? 'scaleX(-1)' : undefined,
-                    mixBlendMode: 'luminosity',
-                  }}
-                />
-                <div className="absolute inset-0 pointer-events-none" style={{ background: NEXT_MATCH.home.color, mixBlendMode: 'color', opacity: 0.55 }} />
-              </>
+              <motion.img
+                src={NEXT_MATCH.home.captainPhoto}
+                alt={NEXT_MATCH.home.captain ?? NEXT_MATCH.home.team}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 1.1, ease: EASE }}
+                className="absolute bottom-0 right-0 h-full object-contain object-bottom z-10"
+                style={{
+                  transform: NEXT_MATCH.home.captainFacing === 'left' ? 'scaleX(-1)' : undefined,
+                }}
+              />
             )}
-            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-20" />
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.9, duration: 0.7, ease: EASE }}
-              className="absolute bottom-0 left-0 p-5 md:p-8 z-10 space-y-0.5"
+              className="absolute bottom-0 left-0 p-5 md:p-8 z-30 space-y-0.5"
             >
               <p className="text-[9px] font-mono uppercase tracking-[0.3em] text-white/35">{NEXT_MATCH.home.manager}</p>
               <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none" style={{ color: NEXT_MATCH.home.color }}>
@@ -215,29 +203,33 @@ export default function HomeTab() {
 
           {/* Away player */}
           <div className="flex-1 relative overflow-hidden">
+            {/* Color glow — fades from right edge inward */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none z-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 2 }}
+              style={{ background: `linear-gradient(to left, ${NEXT_MATCH.away.color}55 0%, ${NEXT_MATCH.away.color}18 50%, transparent 100%)` }}
+            />
             {NEXT_MATCH.away.captainPhoto && (
-              <>
-                <motion.img
-                  src={NEXT_MATCH.away.captainPhoto}
-                  alt={NEXT_MATCH.away.captain ?? NEXT_MATCH.away.team}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 1.1, ease: EASE }}
-                  className="absolute bottom-0 left-0 h-full object-contain object-bottom"
-                  style={{
-                    transform: NEXT_MATCH.away.captainFacing === 'right' ? 'scaleX(-1)' : undefined,
-                    mixBlendMode: 'luminosity',
-                  }}
-                />
-                <div className="absolute inset-0 pointer-events-none" style={{ background: NEXT_MATCH.away.color, mixBlendMode: 'color', opacity: 0.55 }} />
-              </>
+              <motion.img
+                src={NEXT_MATCH.away.captainPhoto}
+                alt={NEXT_MATCH.away.captain ?? NEXT_MATCH.away.team}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 1.1, ease: EASE }}
+                className="absolute bottom-0 left-0 h-full object-contain object-bottom z-10"
+                style={{
+                  transform: NEXT_MATCH.away.captainFacing === 'right' ? 'scaleX(-1)' : undefined,
+                }}
+              />
             )}
-            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-20" />
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.0, duration: 0.7, ease: EASE }}
-              className="absolute bottom-0 right-0 p-5 md:p-8 z-10 text-right space-y-0.5"
+              className="absolute bottom-0 right-0 p-5 md:p-8 z-30 text-right space-y-0.5"
             >
               <p className="text-[9px] font-mono uppercase tracking-[0.3em] text-white/35">{NEXT_MATCH.away.manager}</p>
               <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none" style={{ color: NEXT_MATCH.away.color }}>

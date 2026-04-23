@@ -70,7 +70,7 @@ export const TEAMS: Record<string, TeamData> = {
     tagline: 'Ee Sala Cup Namde',
     captain: 'Virat Kohli',
     captainPhoto: kohliImg,
-    captainFacing: 'right',
+    captainFacing: 'left',
   },
   SRH: {
     name: 'Sunrisers Hyderabad',
