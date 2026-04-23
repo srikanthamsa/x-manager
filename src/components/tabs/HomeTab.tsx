@@ -143,7 +143,7 @@ function getMatchTitle(homeTeam: string, awayTeam: string, matches: Match[]): st
   if (t1 === 'CSK-KKR') titles.push('Thala vs Kung Fu Pandya', 'Champion Clash', 'Yellove & Purple');
   if (t1 === 'CSK-SRH') titles.push('Thala vs Rawalpindi Express', 'Southern Showdown', 'The Universe Boss vs Thala');
   if (t1 === 'MI-RCB') titles.push('King vs Hitman', 'Star Wars', 'Heavyweight Clash');
-  if (t1 === 'KKR-RCB') titles.push('King vs Kung Fu Pandya', 'High Octane', 'Fire & Ice', 'The Greatest Rivalry!');
+  if (t1 === 'KKR-RCB') titles.push('King vs Kung Fu Pandya', 'High Octane', 'Fire & Ice', 'The Greatest Rivalry');
   if (t1 === 'RCB-SRH') titles.push('King vs The Boss', 'South Clash', 'Lala vs Rawalpindi Express');
   if (t1 === 'KKR-MI') titles.push('Hitman vs Kung Fu Pandya', 'East vs West');
   if (t1 === 'MI-SRH') titles.push('Cummo vs The Boss', 'Pace vs Power', 'Rawalpindi Express vs Hitman');
