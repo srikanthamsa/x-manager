@@ -115,68 +115,109 @@ export default function HomeTab() {
     <div className="max-w-6xl mx-auto space-y-24 pb-20">
       {/* ── Hero / Next Match ── */}
       <motion.section
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: EASE }}
-        className="relative pt-12"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, ease: EASE }}
+        className="relative w-full overflow-hidden rounded-[2rem] md:rounded-[2.5rem]"
+        style={{ minHeight: '520px' }}
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/5 blur-[120px] rounded-full -z-10" />
+        {/* Split background glow */}
+        <div className="absolute inset-0 flex pointer-events-none">
+          <div className="flex-1 opacity-20 blur-[80px]" style={{ background: NEXT_MATCH.home.color }} />
+          <div className="flex-1 opacity-20 blur-[80px]" style={{ background: NEXT_MATCH.away.color }} />
+        </div>
 
-        <div className="flex flex-col items-center text-center space-y-8">
-          <div className="flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-md">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-            </span>
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-foreground-muted">Live Matchday Experience</span>
+        {/* Two-panel layout */}
+        <div className="relative flex h-full" style={{ minHeight: '520px' }}>
+
+          {/* Home side */}
+          <div className="flex-1 relative flex flex-col justify-end overflow-hidden">
+            {/* Player photo or logo fallback */}
+            {NEXT_MATCH.home.captainPhoto ? (
+              <>
+                <img
+                  src={NEXT_MATCH.home.captainPhoto}
+                  alt={NEXT_MATCH.home.captain ?? NEXT_MATCH.home.team}
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  style={{ filter: 'grayscale(100%) contrast(1.15)' }}
+                />
+                {/* Color duotone overlay */}
+                <div
+                  className="absolute inset-0"
+                  style={{ background: NEXT_MATCH.home.color, mixBlendMode: 'color', opacity: 0.75 }}
+                />
+              </>
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center opacity-10">
+                <img src={NEXT_MATCH.home.logo} alt={NEXT_MATCH.home.team} className="w-48 h-48 object-contain" />
+              </div>
+            )}
+            {/* Gradient fade bottom */}
+            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#08090a] via-[#08090a]/60 to-transparent" />
+            {/* Text */}
+            <div className="relative z-10 p-6 md:p-10 space-y-1">
+              <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/40">{NEXT_MATCH.home.manager}</p>
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none" style={{ color: NEXT_MATCH.home.color }}>
+                {NEXT_MATCH.home.team}
+              </h2>
+              {NEXT_MATCH.home.captain && (
+                <p className="text-xs font-mono text-white/30 uppercase tracking-widest">{NEXT_MATCH.home.captain}</p>
+              )}
+            </div>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-gradient pb-2">
-            The Clash.
-          </h1>
-
-          <div className="w-full flex flex-row items-center justify-center gap-6 md:gap-24 pt-8">
-            <div className="flex flex-col items-center text-center group">
-              <div className="w-28 h-28 md:w-56 md:h-56 rounded-[2rem] md:rounded-[2.5rem] flex items-center justify-center transition-all duration-700 group-hover:scale-110 group-hover:rotate-3">
-                <img src={NEXT_MATCH.home.logo} alt={NEXT_MATCH.home.team} className="w-full h-full object-contain" />
-              </div>
-              <div className="mt-4 space-y-1">
-                <p className="text-lg md:text-2xl font-semibold tracking-tight uppercase">{NEXT_MATCH.home.team}</p>
-                <p className="text-[10px] md:text-sm font-mono text-foreground-muted uppercase tracking-wider">{NEXT_MATCH.home.manager}</p>
-              </div>
+          {/* Center VS */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20 gap-3">
+            <div className="w-px h-16 md:h-24 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-[10px] font-mono text-white/30 uppercase tracking-[0.3em]">Match {NEXT_MATCH.id}</span>
+              <span className="text-3xl md:text-5xl font-black italic text-white/80">VS</span>
             </div>
-
-            <div className="flex flex-col items-center justify-center">
-              <div className="h-16 md:h-24 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
-              <span className="text-3xl md:text-5xl font-black text-white/60 italic py-3 md:py-4">VS</span>
-              <div className="h-16 md:h-24 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
-            </div>
-
-            <div className="flex flex-col items-center text-center group">
-              <div className="w-28 h-28 md:w-56 md:h-56 rounded-[2rem] md:rounded-[2.5rem] flex items-center justify-center transition-all duration-700 group-hover:scale-110 group-hover:-rotate-3">
-                <img src={NEXT_MATCH.away.logo} alt={NEXT_MATCH.away.team} className="w-full h-full object-contain" />
-              </div>
-              <div className="mt-4 space-y-1">
-                <p className="text-lg md:text-2xl font-semibold tracking-tight uppercase">{NEXT_MATCH.away.team}</p>
-                <p className="text-[10px] md:text-sm font-mono text-foreground-muted uppercase tracking-wider">{NEXT_MATCH.away.manager}</p>
-              </div>
-            </div>
+            <div className="w-px h-16 md:h-24 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
           </div>
 
-          <div className="pt-12 flex flex-col items-center gap-6">
-            <div className="flex flex-col items-center">
-              <p className="text-lg font-medium text-foreground-subtle tracking-tight">{NEXT_MATCH.venue}</p>
-              <p className="text-sm text-foreground-muted font-mono uppercase tracking-widest mt-1">
-                Match {NEXT_MATCH.id}
-              </p>
+          {/* Away side */}
+          <div className="flex-1 relative flex flex-col justify-end overflow-hidden">
+            {NEXT_MATCH.away.captainPhoto ? (
+              <>
+                <img
+                  src={NEXT_MATCH.away.captainPhoto}
+                  alt={NEXT_MATCH.away.captain ?? NEXT_MATCH.away.team}
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  style={{ filter: 'grayscale(100%) contrast(1.15)', transform: 'scaleX(-1)' }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{ background: NEXT_MATCH.away.color, mixBlendMode: 'color', opacity: 0.75 }}
+                />
+              </>
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center opacity-10">
+                <img src={NEXT_MATCH.away.logo} alt={NEXT_MATCH.away.team} className="w-48 h-48 object-contain" />
+              </div>
+            )}
+            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#08090a] via-[#08090a]/60 to-transparent" />
+            <div className="relative z-10 p-6 md:p-10 space-y-1 text-right">
+              <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/40">{NEXT_MATCH.away.manager}</p>
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none" style={{ color: NEXT_MATCH.away.color }}>
+                {NEXT_MATCH.away.team}
+              </h2>
+              {NEXT_MATCH.away.captain && (
+                <p className="text-xs font-mono text-white/30 uppercase tracking-widest">{NEXT_MATCH.away.captain}</p>
+              )}
             </div>
-            <button
-              onClick={() => setMatchCenterOpen(true)}
-              className="px-10 py-4 bg-foreground text-bg-base rounded-full text-sm font-bold tracking-tight hover:bg-accent hover:text-white transition-all duration-500 shadow-2xl hover:shadow-accent/40 group"
-            >
-              Enter Match Center <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
           </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="relative z-10 flex flex-col items-center gap-4 pb-8 -mt-2">
+          <p className="text-xs font-mono text-white/30 uppercase tracking-widest">{NEXT_MATCH.venue}</p>
+          <button
+            onClick={() => setMatchCenterOpen(true)}
+            className="px-10 py-4 bg-foreground text-bg-base rounded-full text-sm font-bold tracking-tight hover:bg-accent hover:text-white transition-all duration-500 shadow-2xl hover:shadow-accent/40 group"
+          >
+            Enter Match Center <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
         </div>
       </motion.section>
 
