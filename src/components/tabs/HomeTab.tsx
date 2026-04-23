@@ -122,10 +122,13 @@ export default function HomeTab() {
     setSelectedMatch(match)
   }
 
-  // Lightning bolt clip-paths — panels share a perfect zigzag seam at screen center
-  // Home extends 8% past center at top/75%, pulls 8% before center at 25%/bottom
-  const homeClip = 'polygon(0% 0%, 100% 0%, 108% 25%, 92% 50%, 108% 75%, 100% 100%, 0% 100%)'
-  const awayClip = 'polygon(0% 0%, 8% 25%, -8% 50%, 8% 75%, 0% 100%, 100% 100%, 100% 0%)'
+  // Ragged lightning bolt seam — 9 kinks with irregular amplitude for organic feel
+  // Screen % → panel %: home divides by 0.5, away subtracts 50 then divides by 0.5
+  // Seam in screen%: 50→56→43→58→42→57→45→55→43→50 (alternating right/left, varying depth)
+  const homeClip = 'polygon(0% 0%, 100% 0%, 112% 11%, 86% 22%, 116% 33%, 84% 44%, 114% 56%, 90% 67%, 110% 78%, 86% 89%, 100% 100%, 0% 100%)'
+  const awayClip = 'polygon(0% 0%, 12% 11%, -14% 22%, 16% 33%, -16% 44%, 14% 56%, -10% 67%, 10% 78%, -14% 89%, 0% 100%, 100% 100%, 100% 0%)'
+  // Lottie anchor positions along the seam kinks
+  const lottiePositions = [0, 11, 22, 33, 44, 56, 67, 78, 89, 100]
 
   return (
     <div className="max-w-6xl mx-auto space-y-24 pb-20">
@@ -153,7 +156,7 @@ export default function HomeTab() {
                 initial={{ opacity: 0, y: 60, scaleX: homeFacing === 'left' ? -1 : 1 }}
                 animate={{ opacity: 1, y: 0, scaleX: homeFacing === 'left' ? -1 : 1 }}
                 transition={{ delay: 0.5, duration: 1.1, ease: EASE }}
-                className="absolute bottom-0 right-0 h-[92%] object-contain object-bottom z-10"
+                className="absolute bottom-0 right-0 h-full object-contain object-bottom z-10"
                 style={{ mixBlendMode: 'luminosity' }}
               />
             )}
@@ -174,7 +177,7 @@ export default function HomeTab() {
                 initial={{ opacity: 0, y: 60, scaleX: awayFacing === 'right' ? -1 : 1 }}
                 animate={{ opacity: 1, y: 0, scaleX: awayFacing === 'right' ? -1 : 1 }}
                 transition={{ delay: 0.6, duration: 1.1, ease: EASE }}
-                className="absolute bottom-0 left-0 h-[92%] object-contain object-bottom z-10"
+                className="absolute bottom-0 left-0 h-full object-contain object-bottom z-10"
                 style={{ mixBlendMode: 'luminosity' }}
               />
             )}
@@ -183,19 +186,19 @@ export default function HomeTab() {
         </div>
 
         {/* ─ TOP FADE — title readability ─ */}
-        <div className="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-black/75 to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-20 pointer-events-none" />
 
         {/* ─ BOTTOM FADE ─ */}
-        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/95 via-black/70 to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-black/95 via-black/70 to-transparent z-20 pointer-events-none" />
 
-        {/* ─ LIGHTNING SEAM — Lottie animations at the 4 kink points of the bolt ─ */}
+        {/* ─ LIGHTNING SEAM — Lottie at every kink of the ragged bolt ─ */}
         <div className="absolute inset-0 flex justify-center pointer-events-none z-20">
-          <div className="relative h-full" style={{ width: 130 }}>
-            {[0, 25, 50, 75, 100].map((pct, i) => (
+          <div className="relative h-full" style={{ width: 140 }}>
+            {lottiePositions.map((pct, i) => (
               <div
                 key={i}
                 className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
-                style={{ top: `${pct}%`, width: 130, height: 160 }}
+                style={{ top: `${pct}%`, width: 140, height: 150 }}
               >
                 <DotLottieReact
                   src="https://lottie.host/0bcc69c8-2106-422e-b3ac-535ba93d2845/Jah7Yhr8qI.lottie"
@@ -207,14 +210,14 @@ export default function HomeTab() {
           </div>
         </div>
 
-        {/* ─ TITLE ─ */}
+        {/* ─ TITLE — sits low enough that players fill the gap above it ─ */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8, ease: EASE }}
-          className="absolute top-0 inset-x-0 z-30 pt-14 flex justify-center pointer-events-none"
+          className="absolute top-0 inset-x-0 z-30 pt-12 flex justify-center pointer-events-none"
         >
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+          <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white drop-shadow-[0_4px_32px_rgba(0,0,0,0.9)] leading-none">
             The Clash.
           </h1>
         </motion.div>
