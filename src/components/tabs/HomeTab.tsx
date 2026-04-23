@@ -105,14 +105,14 @@ function FranchiseWheel({ managers, S, cx, cy, r, band, logoSize }: WheelProps) 
 function pickRandomPhoto(team: typeof NEXT_MATCH.home) {
   const useSecond = Math.random() > 0.5;
   if (useSecond && team.captainPhoto2) {
-    return { 
-      photo: team.captainPhoto2, 
+    return {
+      photo: team.captainPhoto2,
       facing: team.captainFacing2 ?? 'right',
       name: team.captain2 ?? team.captain
     }
   }
-  return { 
-    photo: team.captainPhoto!, 
+  return {
+    photo: team.captainPhoto!,
     facing: team.captainFacing ?? 'right',
     name: team.captain
   }
@@ -123,27 +123,32 @@ function getMatchTitle(homeTeam: string, awayTeam: string, matches: Match[]): st
   // calculate points
   const points: Record<string, number> = {};
   Object.keys(TEAMS).forEach(k => points[k] = 0);
-  
+
   matches.forEach(m => {
     if (m.status === 'completed' && m.winner) {
       points[m.winner] = (points[m.winner] || 0) + 2;
     }
   });
-  
+
   const sortedTeams = Object.keys(TEAMS).sort((a, b) => points[b] - points[a]);
   const homeRank = sortedTeams.indexOf(homeTeam);
   const awayRank = sortedTeams.indexOf(awayTeam);
-  
+
   const titles: string[] = [];
   const t1 = [homeTeam, awayTeam].sort().join('-');
-  
+
   // Specific Internet/Meme Rivalries & Star Power Matchups
-  if (t1 === 'CSK-RCB') titles.push('Southern Derby', 'Royal Showdown', 'Thala vs King', 'Dhoni vs Kohli');
-  if (t1 === 'KKR-SRH') titles.push('Shoaib vs Bumrah', 'Gayle vs Hardik', 'Pace Battle', 'Cummins vs Akhtar');
-  if (t1 === 'MI-RCB') titles.push('Star Wars', 'Heavyweight Clash', 'King vs Hitman', 'Afridi vs Kapil Dev');
-  if (t1 === 'CSK-KKR') titles.push('Champion Clash', 'Purple & Gold', 'Thala vs Kung Fu', 'Dhoni vs Cummins');
-  if (t1 === 'KKR-MI') titles.push('East vs West', 'Hitman vs Hardik', 'Rohit vs Bumrah', 'Kapil vs Cummins');
-  
+  if (t1 === 'CSK-MI') titles.push('Thala vs Hitman', 'El Clasico', 'Clash of Titans');
+  if (t1 === 'CSK-RCB') titles.push('Thala vs King', 'Southern Derby', 'Royal Showdown');
+  if (t1 === 'CSK-KKR') titles.push('Thala vs Kung Fu Pandya', 'Champion Clash', 'Yellove & Purple');
+  if (t1 === 'CSK-SRH') titles.push('Thala vs Rawalpindi Express', 'Southern Showdown', 'The Universe Boss vs Thala');
+  if (t1 === 'MI-RCB') titles.push('King vs Hitman', 'Star Wars', 'Heavyweight Clash');
+  if (t1 === 'KKR-RCB') titles.push('King vs Kung Fu Pandya', 'High Octane', 'Fire & Ice', 'The Greatest Rivalry!');
+  if (t1 === 'RCB-SRH') titles.push('King vs The Boss', 'South Clash', 'Lala vs Rawalpindi Express');
+  if (t1 === 'KKR-MI') titles.push('Hitman vs Kung Fu Pandya', 'East vs West');
+  if (t1 === 'MI-SRH') titles.push('Cummo vs The Boss', 'Pace vs Power', 'Rawalpindi Express vs Hitman');
+  if (t1 === 'KKR-SRH') titles.push('Kung Fu Pandya vs The Universe Boss', 'Gayle Storm', 'Rawalpindi Express vs Kung Fu Pandya');
+
   // Position based
   if (homeRank < 2 && awayRank < 2) {
     titles.push('Top of the Table', 'For Supremacy');
@@ -152,10 +157,10 @@ function getMatchTitle(homeTeam: string, awayTeam: string, matches: Match[]): st
   } else if ((homeRank === 0 && awayRank === sortedTeams.length - 1) || (homeRank === sortedTeams.length - 1 && awayRank === 0)) {
     titles.push('David vs Goliath', 'Giant Killers?');
   }
-  
+
   // Generics (including original)
   titles.push('The Clash', 'The Showdown', 'Blockbuster', 'Face-Off', 'Epic Encounter');
-  
+
   return titles[Math.floor(Math.random() * titles.length)] + '.';
 }
 
@@ -428,106 +433,106 @@ export default function HomeTab() {
       {/* ── Rest of page ── */}
       <div className="space-y-24">
 
-      {/* ── Status Bar Metrics ── */}
-      <section className="relative px-6">
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 py-10">
-          <div className="flex flex-col items-center md:items-start space-y-2">
-            <span className="text-[10px] font-mono text-foreground-muted uppercase tracking-[0.2em]">Tournament Pool</span>
-            <span className="text-3xl font-bold tracking-tight">₹ 500</span>
-            <span className="text-[10px] text-accent font-medium flex items-center gap-1">
-              <Zap className="w-3 h-3 fill-current" /> Live updates
-            </span>
-          </div>
-          <div className="flex flex-col items-center md:items-start space-y-2 border-l border-white/5 md:pl-12">
-            <span className="text-[10px] font-mono text-foreground-muted uppercase tracking-[0.2em]">Franchises</span>
-            <div className="flex items-end gap-2">
-              <span className="text-3xl font-bold tracking-tight">05</span>
-              <span className="text-sm text-foreground-muted font-light mb-1">active teams</span>
+        {/* ── Status Bar Metrics ── */}
+        <section className="relative px-6">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 py-10">
+            <div className="flex flex-col items-center md:items-start space-y-2">
+              <span className="text-[10px] font-mono text-foreground-muted uppercase tracking-[0.2em]">Tournament Pool</span>
+              <span className="text-3xl font-bold tracking-tight">₹ 500</span>
+              <span className="text-[10px] text-accent font-medium flex items-center gap-1">
+                <Zap className="w-3 h-3 fill-current" /> Live updates
+              </span>
             </div>
-          </div>
-          <div className="flex flex-col items-center md:items-start space-y-2 border-l border-white/5 md:pl-12">
-            <span className="text-[10px] font-mono text-foreground-muted uppercase tracking-[0.2em]">Total Matches</span>
-            <div className="flex items-end gap-2">
-              <span className="text-3xl font-bold tracking-tight">23</span>
-              <span className="text-sm text-foreground-muted font-light mb-1">matches</span>
-            </div>
-          </div>
-          <div className="flex flex-col items-center md:items-start space-y-2 border-l border-white/5 md:pl-12">
-            <span className="text-[10px] font-mono text-foreground-muted uppercase tracking-[0.2em]">Season Status</span>
-            <div className="flex items-center gap-2">
-              <span className="text-3xl font-bold tracking-tight">S1</span>
-              <div className="px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">
-                <span className="text-[8px] font-bold text-emerald-400 uppercase tracking-widest">Active</span>
+            <div className="flex flex-col items-center md:items-start space-y-2 border-l border-white/5 md:pl-12">
+              <span className="text-[10px] font-mono text-foreground-muted uppercase tracking-[0.2em]">Franchises</span>
+              <div className="flex items-end gap-2">
+                <span className="text-3xl font-bold tracking-tight">05</span>
+                <span className="text-sm text-foreground-muted font-light mb-1">active teams</span>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      </section>
-
-      {/* ── Franchise Board ── */}
-      <section className="space-y-12">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tighter">Franchise Board.</h2>
-          <p className="text-foreground-muted mt-2">The architects of Season 1</p>
-        </div>
-
-        {/* Mobile */}
-        <div className="md:hidden">
-          <FranchiseWheel managers={MANAGERS} S={352} cx={176} cy={176} r={136} band={80} logoSize={120} />
-        </div>
-        {/* Desktop */}
-        <div className="hidden md:block">
-          <FranchiseWheel managers={MANAGERS} S={440} cx={220} cy={220} r={170} band={100} logoSize={150} />
-        </div>
-      </section>
-
-      {/* ── Activity Feed ── */}
-      <section className="space-y-12">
-        <div className="flex items-end justify-between border-b border-white/5 pb-6">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tighter">Activity.</h2>
-            <p className="text-foreground-muted mt-1 font-mono text-[10px] uppercase tracking-widest">Latest from the pitch</p>
-          </div>
-          <button
-            onClick={() => setAllMatchesOpen(true)}
-            className="text-xs font-bold text-foreground hover:text-accent transition-colors flex items-center gap-2 group"
-          >
-            All Matches <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
-
-        <div className="space-y-px bg-white/[0.03] rounded-3xl overflow-hidden border border-white/[0.03]">
-          {COMPLETED.map((match) => (
-            <div
-              key={match.id}
-              className="bg-bg-base px-5 py-4 flex flex-col gap-3 group hover:bg-white/[0.02] transition-colors duration-500 border-b border-white/[0.02] last:border-0"
-            >
-              {/* Top row: logos + match number */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <img src={match.home.logo} alt={match.home.team} className="w-9 h-9 object-contain" />
-                  <span className="text-[10px] font-bold uppercase tracking-tight">{match.home.team}</span>
-                  <span className="text-[9px] font-mono text-foreground-muted/40 uppercase tracking-widest px-1">vs</span>
-                  <span className="text-[10px] font-bold uppercase tracking-tight">{match.away.team}</span>
-                  <img src={match.away.logo} alt={match.away.team} className="w-9 h-9 object-contain" />
+            <div className="flex flex-col items-center md:items-start space-y-2 border-l border-white/5 md:pl-12">
+              <span className="text-[10px] font-mono text-foreground-muted uppercase tracking-[0.2em]">Total Matches</span>
+              <div className="flex items-end gap-2">
+                <span className="text-3xl font-bold tracking-tight">23</span>
+                <span className="text-sm text-foreground-muted font-light mb-1">matches</span>
+              </div>
+            </div>
+            <div className="flex flex-col items-center md:items-start space-y-2 border-l border-white/5 md:pl-12">
+              <span className="text-[10px] font-mono text-foreground-muted uppercase tracking-[0.2em]">Season Status</span>
+              <div className="flex items-center gap-2">
+                <span className="text-3xl font-bold tracking-tight">S1</span>
+                <div className="px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">
+                  <span className="text-[8px] font-bold text-emerald-400 uppercase tracking-widest">Active</span>
                 </div>
-                <span className="text-[9px] font-mono text-foreground-muted/50 uppercase tracking-widest shrink-0">M{match.id}</span>
               </div>
-              {/* Result */}
-              <p className="text-sm text-foreground-subtle leading-snug">{match.result}</p>
-              {/* Details link */}
-              <button
-                onClick={() => setSelectedMatch(match)}
-                className="self-start text-[10px] font-bold text-accent uppercase tracking-widest"
-              >
-                Details →
-              </button>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        </section>
+
+        {/* ── Franchise Board ── */}
+        <section className="space-y-12">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tighter">Franchise Board.</h2>
+            <p className="text-foreground-muted mt-2">The architects of Season 1</p>
+          </div>
+
+          {/* Mobile */}
+          <div className="md:hidden">
+            <FranchiseWheel managers={MANAGERS} S={352} cx={176} cy={176} r={136} band={80} logoSize={120} />
+          </div>
+          {/* Desktop */}
+          <div className="hidden md:block">
+            <FranchiseWheel managers={MANAGERS} S={440} cx={220} cy={220} r={170} band={100} logoSize={150} />
+          </div>
+        </section>
+
+        {/* ── Activity Feed ── */}
+        <section className="space-y-12">
+          <div className="flex items-end justify-between border-b border-white/5 pb-6">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tighter">Activity.</h2>
+              <p className="text-foreground-muted mt-1 font-mono text-[10px] uppercase tracking-widest">Latest from the pitch</p>
+            </div>
+            <button
+              onClick={() => setAllMatchesOpen(true)}
+              className="text-xs font-bold text-foreground hover:text-accent transition-colors flex items-center gap-2 group"
+            >
+              All Matches <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+
+          <div className="space-y-px bg-white/[0.03] rounded-3xl overflow-hidden border border-white/[0.03]">
+            {COMPLETED.map((match) => (
+              <div
+                key={match.id}
+                className="bg-bg-base px-5 py-4 flex flex-col gap-3 group hover:bg-white/[0.02] transition-colors duration-500 border-b border-white/[0.02] last:border-0"
+              >
+                {/* Top row: logos + match number */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <img src={match.home.logo} alt={match.home.team} className="w-9 h-9 object-contain" />
+                    <span className="text-[10px] font-bold uppercase tracking-tight">{match.home.team}</span>
+                    <span className="text-[9px] font-mono text-foreground-muted/40 uppercase tracking-widest px-1">vs</span>
+                    <span className="text-[10px] font-bold uppercase tracking-tight">{match.away.team}</span>
+                    <img src={match.away.logo} alt={match.away.team} className="w-9 h-9 object-contain" />
+                  </div>
+                  <span className="text-[9px] font-mono text-foreground-muted/50 uppercase tracking-widest shrink-0">M{match.id}</span>
+                </div>
+                {/* Result */}
+                <p className="text-sm text-foreground-subtle leading-snug">{match.result}</p>
+                {/* Details link */}
+                <button
+                  onClick={() => setSelectedMatch(match)}
+                  className="self-start text-[10px] font-bold text-accent uppercase tracking-widest"
+                >
+                  Details →
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
 
       </div>{/* end space-y-24 */}
 
