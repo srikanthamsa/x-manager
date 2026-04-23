@@ -5,10 +5,15 @@ import rcbLogo from '../assets/rcb.png'
 import srhLogo from '../assets/srh.png'
 
 import kohliImg from '../assets/players/kohli.png'
-import dhoniImg from '../assets/players/dhoni.png'
-import pandyaImg from '../assets/players/pandya.png'
+import afridiImg from '../assets/players/afridi.png'
+import akhtarImg from '../assets/players/akhtar.png'
 import cumminsImg from '../assets/players/cummins.png'
+import dhoniImg from '../assets/players/dhoni.png'
 import iyerImg from '../assets/players/iyer.png'
+import kishanImg from '../assets/players/kishan.png'
+import pandyaImg from '../assets/players/pandya.png'
+import kapilImg from '../assets/players/kapil.png'
+import rohitImg from '../assets/players/rohit.png'
 
 export interface TeamData {
   name: string
@@ -21,6 +26,8 @@ export interface TeamData {
   captain?: string
   captainPhoto?: string
   captainFacing?: 'left' | 'right'
+  captainPhoto2?: string
+  captainFacing2?: 'left' | 'right'
 }
 
 export const TEAMS: Record<string, TeamData> = {
@@ -34,7 +41,9 @@ export const TEAMS: Record<string, TeamData> = {
     tagline: 'Whistle Podu',
     captain: 'MS Dhoni',
     captainPhoto: dhoniImg,
-    captainFacing: 'left',
+    captainFacing: 'right',
+    captainPhoto2: iyerImg,
+    captainFacing2: 'left',
   },
   KKR: {
     name: 'Kolkata Knight Riders',
@@ -44,9 +53,11 @@ export const TEAMS: Record<string, TeamData> = {
     manager: 'Ekansh',
     nickname: 'The Unpredictable',
     tagline: 'Korbo Lorbo Jeetbo',
-    captain: 'Shreyas Iyer',
-    captainPhoto: iyerImg,
-    captainFacing: 'left',
+    captain: 'Pat Cummins',
+    captainPhoto: cumminsImg,
+    captainFacing: 'right',
+    captainPhoto2: pandyaImg,
+    captainFacing2: 'right',
   },
   MI: {
     name: 'Mumbai Indians',
@@ -56,9 +67,11 @@ export const TEAMS: Record<string, TeamData> = {
     manager: 'Debu',
     nickname: 'Hitman',
     tagline: 'Duniya Hila Denge',
-    captain: 'Hardik Pandya',
-    captainPhoto: pandyaImg,
+    captain: 'Kapil Dev',
+    captainPhoto: kapilImg,
     captainFacing: 'right',
+    captainPhoto2: rohitImg,
+    captainFacing2: 'right',
   },
   RCB: {
     name: 'Royal Challengers Bengaluru',
@@ -71,6 +84,8 @@ export const TEAMS: Record<string, TeamData> = {
     captain: 'Virat Kohli',
     captainPhoto: kohliImg,
     captainFacing: 'left',
+    captainPhoto2: afridiImg,
+    captainFacing2: 'left',
   },
   SRH: {
     name: 'Sunrisers Hyderabad',
@@ -80,9 +95,10 @@ export const TEAMS: Record<string, TeamData> = {
     manager: 'Ashpak',
     nickname: 'Universe Boss',
     tagline: 'Rise with the Orange Army',
-    captain: 'Pat Cummins',
-    captainPhoto: cumminsImg,
-    captainFacing: 'left',
-  }
+    captain: 'Shoaib Akhtar',
+    captainPhoto: akhtarImg,
+    captainFacing: 'right',
+    captainPhoto2: kishanImg,
+    captainFacing2: 'right',
+  },
 }
-

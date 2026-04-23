@@ -101,6 +101,13 @@ function FranchiseWheel({ managers, S, cx, cy, r, band, logoSize }: WheelProps) 
   )
 }
 
+/** Pick the photo that naturally faces the desired direction; fall back to primary (will be flipped). */
+function pickPhoto(team: typeof NEXT_MATCH.home, want: 'left' | 'right') {
+  if (team.captainFacing === want) return { photo: team.captainPhoto!, facing: team.captainFacing }
+  if (team.captainFacing2 === want && team.captainPhoto2) return { photo: team.captainPhoto2, facing: team.captainFacing2 }
+  return { photo: team.captainPhoto!, facing: team.captainFacing ?? 'right' }
+}
+
 export default function HomeTab() {
   const [matchCenterOpen, setMatchCenterOpen] = useState(false)
   const [allMatchesOpen, setAllMatchesOpen] = useState(false)
@@ -140,7 +147,12 @@ export default function HomeTab() {
         {/* Clash panels */}
         <div className="relative flex" style={{ height: '420px' }}>
 
-          {/* Home player */}
+          {/* Home player — wants to face RIGHT toward center */}
+          {(() => {
+            const { photo: homePhoto, facing: homeFacing } = pickPhoto(NEXT_MATCH.home, 'right')
+            const { photo: awayPhoto, facing: awayFacing } = pickPhoto(NEXT_MATCH.away, 'left')
+            return (
+          <>
           <div className="flex-1 relative overflow-hidden">
             {/* Color glow — fades from left edge inward */}
             <motion.div
@@ -150,17 +162,15 @@ export default function HomeTab() {
               transition={{ delay: 0.6, duration: 2 }}
               style={{ background: `linear-gradient(to right, ${NEXT_MATCH.home.color}55 0%, ${NEXT_MATCH.home.color}18 50%, transparent 100%)` }}
             />
-            {NEXT_MATCH.home.captainPhoto && (
+            {homePhoto && (
               <motion.img
-                src={NEXT_MATCH.home.captainPhoto}
+                src={homePhoto}
                 alt={NEXT_MATCH.home.captain ?? NEXT_MATCH.home.team}
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 1.1, ease: EASE }}
                 className="absolute bottom-0 right-0 h-full object-contain object-bottom z-10"
-                style={{
-                  transform: NEXT_MATCH.home.captainFacing === 'left' ? 'scaleX(-1)' : undefined,
-                }}
+                style={{ transform: homeFacing === 'left' ? 'scaleX(-1)' : undefined }}
               />
             )}
             <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-20" />
@@ -201,7 +211,7 @@ export default function HomeTab() {
             <div className="w-px h-14 bg-gradient-to-b from-transparent via-white/15 to-transparent" />
           </div>
 
-          {/* Away player */}
+          {/* Away player — wants to face LEFT toward center */}
           <div className="flex-1 relative overflow-hidden">
             {/* Color glow — fades from right edge inward */}
             <motion.div
@@ -211,17 +221,15 @@ export default function HomeTab() {
               transition={{ delay: 0.6, duration: 2 }}
               style={{ background: `linear-gradient(to left, ${NEXT_MATCH.away.color}55 0%, ${NEXT_MATCH.away.color}18 50%, transparent 100%)` }}
             />
-            {NEXT_MATCH.away.captainPhoto && (
+            {awayPhoto && (
               <motion.img
-                src={NEXT_MATCH.away.captainPhoto}
+                src={awayPhoto}
                 alt={NEXT_MATCH.away.captain ?? NEXT_MATCH.away.team}
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 1.1, ease: EASE }}
                 className="absolute bottom-0 left-0 h-full object-contain object-bottom z-10"
-                style={{
-                  transform: NEXT_MATCH.away.captainFacing === 'right' ? 'scaleX(-1)' : undefined,
-                }}
+                style={{ transform: awayFacing === 'right' ? 'scaleX(-1)' : undefined }}
               />
             )}
             <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-20" />
@@ -240,6 +248,9 @@ export default function HomeTab() {
               )}
             </motion.div>
           </div>
+          </>
+            )
+          })()}
         </div>
 
         {/* CTA */}
