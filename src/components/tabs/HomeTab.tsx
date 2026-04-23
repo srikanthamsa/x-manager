@@ -123,8 +123,8 @@ export default function HomeTab() {
       >
         {/* Split background glow */}
         <div className="absolute inset-0 flex pointer-events-none">
-          <div className="flex-1 opacity-20 blur-[80px]" style={{ background: NEXT_MATCH.home.color }} />
-          <div className="flex-1 opacity-20 blur-[80px]" style={{ background: NEXT_MATCH.away.color }} />
+          <div className="flex-1 opacity-10 blur-[60px]" style={{ background: NEXT_MATCH.home.color }} />
+          <div className="flex-1 opacity-10 blur-[60px]" style={{ background: NEXT_MATCH.away.color }} />
         </div>
 
         {/* Two-panel layout */}
@@ -139,7 +139,7 @@ export default function HomeTab() {
                   src={NEXT_MATCH.home.captainPhoto}
                   alt={NEXT_MATCH.home.captain ?? NEXT_MATCH.home.team}
                   className="absolute inset-0 w-full h-full object-cover object-top"
-                  style={{ filter: 'grayscale(100%) contrast(1.15)' }}
+                  style={{ filter: 'grayscale(100%) contrast(1.15)', transform: 'scaleX(-1)' }}
                 />
                 {/* Color duotone overlay */}
                 <div
@@ -153,7 +153,7 @@ export default function HomeTab() {
               </div>
             )}
             {/* Gradient fade bottom */}
-            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#08090a] via-[#08090a]/60 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             {/* Text */}
             <div className="relative z-10 p-6 md:p-10 space-y-1">
               <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/40">{NEXT_MATCH.home.manager}</p>
@@ -184,7 +184,7 @@ export default function HomeTab() {
                   src={NEXT_MATCH.away.captainPhoto}
                   alt={NEXT_MATCH.away.captain ?? NEXT_MATCH.away.team}
                   className="absolute inset-0 w-full h-full object-cover object-top"
-                  style={{ filter: 'grayscale(100%) contrast(1.15)', transform: 'scaleX(-1)' }}
+                  style={{ filter: 'grayscale(100%) contrast(1.15)' }}
                 />
                 <div
                   className="absolute inset-0"
@@ -196,7 +196,7 @@ export default function HomeTab() {
                 <img src={NEXT_MATCH.away.logo} alt={NEXT_MATCH.away.team} className="w-48 h-48 object-contain" />
               </div>
             )}
-            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#08090a] via-[#08090a]/60 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             <div className="relative z-10 p-6 md:p-10 space-y-1 text-right">
               <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/40">{NEXT_MATCH.away.manager}</p>
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none" style={{ color: NEXT_MATCH.away.color }}>
