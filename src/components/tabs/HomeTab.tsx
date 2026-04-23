@@ -114,191 +114,158 @@ export default function HomeTab() {
   const [allMatchesOpen, setAllMatchesOpen] = useState(false)
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null)
 
+  const { photo: homePhoto, facing: homeFacing } = pickPhoto(NEXT_MATCH.home, 'right')
+  const { photo: awayPhoto, facing: awayFacing } = pickPhoto(NEXT_MATCH.away, 'left')
+
   const handleSelectMatch = (match: Match) => {
     setAllMatchesOpen(false)
     setSelectedMatch(match)
   }
 
+  // Lightning bolt clip-paths — panels share a perfect zigzag seam at screen center
+  // Home extends 8% past center at top/75%, pulls 8% before center at 25%/bottom
+  const homeClip = 'polygon(0% 0%, 100% 0%, 108% 25%, 92% 50%, 108% 75%, 100% 100%, 0% 100%)'
+  const awayClip = 'polygon(0% 0%, 8% 25%, -8% 50%, 8% 75%, 0% 100%, 100% 100%, 100% 0%)'
+
   return (
     <div className="max-w-6xl mx-auto space-y-24 pb-20">
-      {/* ── Hero / Next Match ── */}
+      {/* ── Hero / Next Match — full bleed, top to bottom ── */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: EASE }}
-        className="relative w-full overflow-hidden rounded-[2rem] md:rounded-[2.5rem] pt-10"
+        className="relative -mx-4 -mt-12 overflow-hidden flex-shrink-0"
+        style={{ height: '100svh', minHeight: 640 }}
       >
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.7, ease: EASE }}
-          className="relative z-30 flex flex-col items-center gap-4 pb-8"
-        >
-          <div className="flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-md">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
-            </span>
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-foreground-muted">Next Match</span>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gradient leading-tight">The Clash.</h1>
-        </motion.div>
-
-        {/* Clash panels */}
-        <div className="relative flex" style={{ height: '420px' }}>
-
-          {/* Home player — wants to face RIGHT toward center */}
-          {(() => {
-            const { photo: homePhoto, facing: homeFacing } = pickPhoto(NEXT_MATCH.home, 'right')
-            const { photo: awayPhoto, facing: awayFacing } = pickPhoto(NEXT_MATCH.away, 'left')
-            return (
-          <>
-          <div className="flex-1 relative overflow-hidden">
-            {/* Dramatic spotlight — radial glow from player's feet, sweeps upward */}
+        {/* ─ PANELS ─ */}
+        <div className="absolute inset-0 flex">
+          {/* Home panel */}
+          <div className="flex-1 relative" style={{ clipPath: homeClip }}>
             <motion.div
-              className="absolute inset-0 pointer-events-none z-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 1, 0.85, 1] }}
-              transition={{ delay: 0.6, duration: 3, times: [0, 0.4, 0.7, 1] }}
-              style={{
-                background: [
-                  `radial-gradient(ellipse 110% 65% at 80% 115%, ${NEXT_MATCH.home.color}80 0%, ${NEXT_MATCH.home.color}22 45%, transparent 68%)`,
-                  `linear-gradient(to top, ${NEXT_MATCH.home.color}25 0%, transparent 55%)`,
-                ].join(', '),
-              }}
+              className="absolute inset-0 z-0 pointer-events-none"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 2 }}
+              style={{ background: `radial-gradient(ellipse 110% 65% at 80% 115%, ${NEXT_MATCH.home.color}90 0%, ${NEXT_MATCH.home.color}30 40%, transparent 65%), linear-gradient(to top, ${NEXT_MATCH.home.color}30 0%, transparent 50%)` }}
             />
             {homePhoto && (
               <motion.img
-                src={homePhoto}
-                alt={NEXT_MATCH.home.captain ?? NEXT_MATCH.home.team}
-                initial={{ opacity: 0, y: 50, scaleX: homeFacing === 'left' ? -1 : 1 }}
+                src={homePhoto} alt={NEXT_MATCH.home.captain ?? NEXT_MATCH.home.team}
+                initial={{ opacity: 0, y: 60, scaleX: homeFacing === 'left' ? -1 : 1 }}
                 animate={{ opacity: 1, y: 0, scaleX: homeFacing === 'left' ? -1 : 1 }}
                 transition={{ delay: 0.5, duration: 1.1, ease: EASE }}
-                className="absolute bottom-0 right-0 h-full object-contain object-bottom z-10"
+                className="absolute bottom-0 right-0 h-[92%] object-contain object-bottom z-10"
                 style={{ mixBlendMode: 'luminosity' }}
               />
             )}
-            {/* Color layer — tints the player with team color via blend */}
-            <div className="absolute inset-0 z-[11] pointer-events-none" style={{ background: NEXT_MATCH.home.color, mixBlendMode: 'color', opacity: 0.6 }} />
-            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-20" />
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.9, duration: 0.7, ease: EASE }}
-              className="absolute bottom-0 left-0 p-5 md:p-8 z-30 space-y-0.5"
-            >
-              <p className="text-[9px] font-mono uppercase tracking-[0.3em] text-white/35">{NEXT_MATCH.home.manager}</p>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none" style={{ color: NEXT_MATCH.home.color }}>
-                {NEXT_MATCH.home.team}
-              </h2>
-              {NEXT_MATCH.home.captain && (
-                <p className="text-[9px] font-mono text-white/25 uppercase tracking-widest">{NEXT_MATCH.home.captain}</p>
-              )}
-            </motion.div>
+            <div className="absolute inset-0 z-[11] pointer-events-none" style={{ background: NEXT_MATCH.home.color, mixBlendMode: 'color', opacity: 0.65 }} />
           </div>
 
-          {/* ── Lottie divider + VS ── */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-30 pointer-events-none">
-            {/* Lottie animation — full height, centered */}
-            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 flex items-center" style={{ width: 120 }}>
-              <DotLottieReact
-                src="https://lottie.host/0bcc69c8-2106-422e-b3ac-535ba93d2845/Jah7Yhr8qI.lottie"
-                loop
-                autoplay
-                style={{ width: 120, height: '100%' }}
-              />
-            </div>
-
-            {/* VS badge */}
+          {/* Away panel */}
+          <div className="flex-1 relative" style={{ clipPath: awayClip }}>
             <motion.div
-              initial={{ opacity: 0, scale: 0.7 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.8, duration: 0.6, ease: EASE }}
-              className="relative flex flex-col items-center gap-0.5 z-10"
-            >
-              <div className="absolute inset-0 -m-4 rounded-full bg-black/50 backdrop-blur-md" />
-              <motion.span
-                className="relative text-2xl md:text-4xl font-black italic text-white"
-                animate={{
-                  textShadow: [
-                    '0 0 8px rgba(255,255,255,0.3)',
-                    '0 0 24px rgba(255,255,255,0.9)',
-                    '0 0 8px rgba(255,255,255,0.3)',
-                  ],
-                }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                VS
-              </motion.span>
-              <span className="relative text-[8px] font-mono text-white/30 uppercase tracking-[0.3em]">Match {NEXT_MATCH.id}</span>
-            </motion.div>
-          </div>
-
-          {/* Away player — wants to face LEFT toward center */}
-          <div className="flex-1 relative overflow-hidden">
-            {/* Dramatic spotlight — radial glow from player's feet, sweeps upward */}
-            <motion.div
-              className="absolute inset-0 pointer-events-none z-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 1, 0.85, 1] }}
-              transition={{ delay: 0.7, duration: 3, times: [0, 0.4, 0.7, 1] }}
-              style={{
-                background: [
-                  `radial-gradient(ellipse 110% 65% at 20% 115%, ${NEXT_MATCH.away.color}80 0%, ${NEXT_MATCH.away.color}22 45%, transparent 68%)`,
-                  `linear-gradient(to top, ${NEXT_MATCH.away.color}25 0%, transparent 55%)`,
-                ].join(', '),
-              }}
+              className="absolute inset-0 z-0 pointer-events-none"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 2 }}
+              style={{ background: `radial-gradient(ellipse 110% 65% at 20% 115%, ${NEXT_MATCH.away.color}90 0%, ${NEXT_MATCH.away.color}30 40%, transparent 65%), linear-gradient(to top, ${NEXT_MATCH.away.color}30 0%, transparent 50%)` }}
             />
             {awayPhoto && (
               <motion.img
-                src={awayPhoto}
-                alt={NEXT_MATCH.away.captain ?? NEXT_MATCH.away.team}
-                initial={{ opacity: 0, y: 50, scaleX: awayFacing === 'right' ? -1 : 1 }}
+                src={awayPhoto} alt={NEXT_MATCH.away.captain ?? NEXT_MATCH.away.team}
+                initial={{ opacity: 0, y: 60, scaleX: awayFacing === 'right' ? -1 : 1 }}
                 animate={{ opacity: 1, y: 0, scaleX: awayFacing === 'right' ? -1 : 1 }}
                 transition={{ delay: 0.6, duration: 1.1, ease: EASE }}
-                className="absolute bottom-0 left-0 h-full object-contain object-bottom z-10"
+                className="absolute bottom-0 left-0 h-[92%] object-contain object-bottom z-10"
                 style={{ mixBlendMode: 'luminosity' }}
               />
             )}
-            {/* Color layer — tints the player with team color via blend */}
-            <div className="absolute inset-0 z-[11] pointer-events-none" style={{ background: NEXT_MATCH.away.color, mixBlendMode: 'color', opacity: 0.6 }} />
-            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-20" />
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.0, duration: 0.7, ease: EASE }}
-              className="absolute bottom-0 right-0 p-5 md:p-8 z-30 text-right space-y-0.5"
-            >
-              <p className="text-[9px] font-mono uppercase tracking-[0.3em] text-white/35">{NEXT_MATCH.away.manager}</p>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none" style={{ color: NEXT_MATCH.away.color }}>
-                {NEXT_MATCH.away.team}
-              </h2>
-              {NEXT_MATCH.away.captain && (
-                <p className="text-[9px] font-mono text-white/25 uppercase tracking-widest">{NEXT_MATCH.away.captain}</p>
-              )}
-            </motion.div>
+            <div className="absolute inset-0 z-[11] pointer-events-none" style={{ background: NEXT_MATCH.away.color, mixBlendMode: 'color', opacity: 0.65 }} />
           </div>
-          </>
-            )
-          })()}
         </div>
 
-        {/* CTA */}
+        {/* ─ TOP FADE — title readability ─ */}
+        <div className="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-black/75 to-transparent z-20 pointer-events-none" />
+
+        {/* ─ BOTTOM FADE ─ */}
+        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/95 via-black/70 to-transparent z-20 pointer-events-none" />
+
+        {/* ─ LIGHTNING SEAM — Lottie animations at the 4 kink points of the bolt ─ */}
+        <div className="absolute inset-0 flex justify-center pointer-events-none z-20">
+          <div className="relative h-full" style={{ width: 130 }}>
+            {[0, 25, 50, 75, 100].map((pct, i) => (
+              <div
+                key={i}
+                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
+                style={{ top: `${pct}%`, width: 130, height: 160 }}
+              >
+                <DotLottieReact
+                  src="https://lottie.host/0bcc69c8-2106-422e-b3ac-535ba93d2845/Jah7Yhr8qI.lottie"
+                  loop autoplay
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ─ TITLE ─ */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.6, ease: EASE }}
-          className="flex flex-col items-center gap-3 py-8"
+          transition={{ delay: 0.2, duration: 0.8, ease: EASE }}
+          className="absolute top-0 inset-x-0 z-30 pt-14 flex justify-center pointer-events-none"
         >
-          <p className="text-[10px] font-mono text-white/25 uppercase tracking-widest">{NEXT_MATCH.venue}</p>
-          <button
-            onClick={() => setMatchCenterOpen(true)}
-            className="px-10 py-4 bg-foreground text-bg-base rounded-full text-sm font-bold tracking-tight hover:bg-accent hover:text-white transition-all duration-500 shadow-2xl hover:shadow-accent/40 group"
-          >
-            Enter Match Center <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+            The Clash.
+          </h1>
         </motion.div>
+
+        {/* ─ BOTTOM INFO ROW ─ */}
+        <div className="absolute bottom-0 inset-x-0 z-30 pb-28 px-5">
+          <div className="flex items-end justify-between gap-2">
+            {/* Home */}
+            <motion.div
+              initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.9, duration: 0.7, ease: EASE }}
+              className="space-y-0.5 min-w-0"
+            >
+              <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-white/60 truncate">{NEXT_MATCH.home.manager}</p>
+              <h2 className="text-4xl font-black tracking-tighter uppercase leading-none text-white"
+                style={{ textShadow: `0 0 24px ${NEXT_MATCH.home.color}, 0 2px 4px rgba(0,0,0,0.8)` }}>
+                {NEXT_MATCH.home.team}
+              </h2>
+              <p className="text-[9px] font-mono text-white/60 uppercase tracking-widest truncate">{NEXT_MATCH.home.captain}</p>
+            </motion.div>
+
+            {/* Center: venue + CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1, duration: 0.6, ease: EASE }}
+              className="flex flex-col items-center gap-2 flex-shrink-0"
+            >
+              <p className="text-[8px] font-mono text-white/35 uppercase tracking-widest text-center whitespace-nowrap">{NEXT_MATCH.venue}</p>
+              <button
+                onClick={() => setMatchCenterOpen(true)}
+                className="px-4 py-2.5 bg-white/10 backdrop-blur-md border border-white/25 text-white rounded-full text-[11px] font-bold tracking-tight hover:bg-white/20 transition-all duration-500 group whitespace-nowrap"
+              >
+                Match Center <ArrowRight className="inline-block ml-1 w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+            </motion.div>
+
+            {/* Away */}
+            <motion.div
+              initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.0, duration: 0.7, ease: EASE }}
+              className="text-right space-y-0.5 min-w-0"
+            >
+              <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-white/60 truncate">{NEXT_MATCH.away.manager}</p>
+              <h2 className="text-4xl font-black tracking-tighter uppercase leading-none text-white"
+                style={{ textShadow: `0 0 24px ${NEXT_MATCH.away.color}, 0 2px 4px rgba(0,0,0,0.8)` }}>
+                {NEXT_MATCH.away.team}
+              </h2>
+              <p className="text-[9px] font-mono text-white/60 uppercase tracking-widest truncate">{NEXT_MATCH.away.captain}</p>
+            </motion.div>
+          </div>
+        </div>
       </motion.section>
 
       {/* ── Status Bar Metrics ── */}
