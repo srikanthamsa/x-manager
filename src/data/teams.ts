@@ -4,6 +4,12 @@ import miLogo from '../assets/mi.png'
 import rcbLogo from '../assets/rcb.png'
 import srhLogo from '../assets/srh.png'
 
+import kohliImg from '../assets/players/kohli.jpeg'
+import dhoniImg from '../assets/players/dhoni.jpeg'
+import pandyaImg from '../assets/players/pandya.jpeg'
+import cumminsImg from '../assets/players/cummins.jpeg'
+import iyerImg from '../assets/players/iyer.jpeg'
+
 export interface TeamData {
   name: string
   shortName: string
@@ -26,6 +32,7 @@ export const TEAMS: Record<string, TeamData> = {
     nickname: 'Thala',
     tagline: 'Whistle Podu',
     captain: 'MS Dhoni',
+    captainPhoto: dhoniImg,
   },
   KKR: {
     name: 'Kolkata Knight Riders',
@@ -36,6 +43,7 @@ export const TEAMS: Record<string, TeamData> = {
     nickname: 'The Unpredictable',
     tagline: 'Korbo Lorbo Jeetbo',
     captain: 'Shreyas Iyer',
+    captainPhoto: iyerImg,
   },
   MI: {
     name: 'Mumbai Indians',
@@ -46,6 +54,7 @@ export const TEAMS: Record<string, TeamData> = {
     nickname: 'Hitman',
     tagline: 'Duniya Hila Denge',
     captain: 'Hardik Pandya',
+    captainPhoto: pandyaImg,
   },
   RCB: {
     name: 'Royal Challengers Bengaluru',
@@ -56,6 +65,7 @@ export const TEAMS: Record<string, TeamData> = {
     nickname: 'The King',
     tagline: 'Ee Sala Cup Namde',
     captain: 'Virat Kohli',
+    captainPhoto: kohliImg,
   },
   SRH: {
     name: 'Sunrisers Hyderabad',
@@ -66,6 +76,7 @@ export const TEAMS: Record<string, TeamData> = {
     nickname: 'Universe Boss',
     tagline: 'Rise with the Orange Army',
     captain: 'Pat Cummins',
+    captainPhoto: cumminsImg,
   }
 }
 
