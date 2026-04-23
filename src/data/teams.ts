@@ -4,11 +4,11 @@ import miLogo from '../assets/mi.png'
 import rcbLogo from '../assets/rcb.png'
 import srhLogo from '../assets/srh.png'
 
-import kohliImg from '../assets/players/kohli.jpeg'
-import dhoniImg from '../assets/players/dhoni.jpeg'
-import pandyaImg from '../assets/players/pandya.jpeg'
-import cumminsImg from '../assets/players/cummins.jpeg'
-import iyerImg from '../assets/players/iyer.jpeg'
+import kohliImg from '../assets/players/kohli.png'
+import dhoniImg from '../assets/players/dhoni.png'
+import pandyaImg from '../assets/players/pandya.png'
+import cumminsImg from '../assets/players/cummins.png'
+import iyerImg from '../assets/players/iyer.png'
 
 export interface TeamData {
   name: string
@@ -18,8 +18,9 @@ export interface TeamData {
   manager: string
   nickname: string
   tagline: string
-  captain?: string       // player name shown on hero
-  captainPhoto?: string  // path to cropped player portrait
+  captain?: string
+  captainPhoto?: string
+  captainFacing?: 'left' | 'right'
 }
 
 export const TEAMS: Record<string, TeamData> = {
@@ -33,6 +34,7 @@ export const TEAMS: Record<string, TeamData> = {
     tagline: 'Whistle Podu',
     captain: 'MS Dhoni',
     captainPhoto: dhoniImg,
+    captainFacing: 'left',
   },
   KKR: {
     name: 'Kolkata Knight Riders',
@@ -44,6 +46,7 @@ export const TEAMS: Record<string, TeamData> = {
     tagline: 'Korbo Lorbo Jeetbo',
     captain: 'Shreyas Iyer',
     captainPhoto: iyerImg,
+    captainFacing: 'left',
   },
   MI: {
     name: 'Mumbai Indians',
@@ -55,6 +58,7 @@ export const TEAMS: Record<string, TeamData> = {
     tagline: 'Duniya Hila Denge',
     captain: 'Hardik Pandya',
     captainPhoto: pandyaImg,
+    captainFacing: 'right',
   },
   RCB: {
     name: 'Royal Challengers Bengaluru',
@@ -66,6 +70,7 @@ export const TEAMS: Record<string, TeamData> = {
     tagline: 'Ee Sala Cup Namde',
     captain: 'Virat Kohli',
     captainPhoto: kohliImg,
+    captainFacing: 'right',
   },
   SRH: {
     name: 'Sunrisers Hyderabad',
@@ -77,6 +82,7 @@ export const TEAMS: Record<string, TeamData> = {
     tagline: 'Rise with the Orange Army',
     captain: 'Pat Cummins',
     captainPhoto: cumminsImg,
+    captainFacing: 'left',
   }
 }
 

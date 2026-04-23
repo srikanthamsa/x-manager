@@ -8,6 +8,7 @@ export interface MatchTeam {
   logo: string
   captain?: string
   captainPhoto?: string
+  captainFacing?: 'left' | 'right'
 }
 
 const t = (key: keyof typeof TEAMS): MatchTeam => ({
@@ -18,6 +19,7 @@ const t = (key: keyof typeof TEAMS): MatchTeam => ({
   logo: TEAMS[key].logo,
   captain: TEAMS[key].captain,
   captainPhoto: TEAMS[key].captainPhoto,
+  captainFacing: TEAMS[key].captainFacing,
 })
 
 export interface Match {
