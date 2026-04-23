@@ -18,7 +18,7 @@ const tabs: { id: TabId; label: string; icon: typeof Home }[] = [
 export default function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex justify-center px-4">
-      <nav className="linear-glass !rounded-full px-2 py-2 flex items-center gap-1 w-fit min-w-[320px] shadow-2xl">
+      <nav className="linear-glass !rounded-full !bg-[rgba(12,13,15,0.75)] px-2 py-2 flex items-center gap-1 w-fit min-w-[320px] shadow-2xl">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id
           const Icon = tab.icon
