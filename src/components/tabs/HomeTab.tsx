@@ -137,17 +137,14 @@ function getMatchTitle(homeTeam: string, awayTeam: string, matches: Match[]): st
   const titles: string[] = [];
   const t1 = [homeTeam, awayTeam].sort().join('-');
 
-  // Specific Internet/Meme Rivalries & Star Power Matchups
-  if (t1 === 'CSK-MI') titles.push('Thala vs Hitman', 'El Clasico', 'Clash of Titans');
-  if (t1 === 'CSK-RCB') titles.push('Thala vs King', 'Southern Derby', 'Royal Showdown');
-  if (t1 === 'CSK-KKR') titles.push('Thala vs Kung Fu Pandya', 'Champion Clash', 'Yellove & Purple');
-  if (t1 === 'CSK-SRH') titles.push('Thala vs Rawalpindi Express', 'Southern Showdown', 'The Universe Boss vs Thala');
-  if (t1 === 'MI-RCB') titles.push('King vs Hitman', 'Star Wars', 'Heavyweight Clash');
-  if (t1 === 'KKR-RCB') titles.push('King vs Kung Fu Pandya', 'High Octane', 'Fire & Ice', 'The Greatest Rivalry');
-  if (t1 === 'RCB-SRH') titles.push('King vs The Boss', 'South Clash', 'Lala vs Rawalpindi Express');
-  if (t1 === 'KKR-MI') titles.push('Hitman vs Kung Fu Pandya', 'East vs West');
-  if (t1 === 'MI-SRH') titles.push('Cummo vs The Boss', 'Pace vs Power', 'Rawalpindi Express vs Hitman');
-  if (t1 === 'KKR-SRH') titles.push('Kung Fu Pandya vs The Universe Boss', 'Gayle Storm', 'Rawalpindi Express vs Kung Fu Pandya');
+  // Specific Internet/Meme Rivalries
+  if (t1 === 'CSK-MI') titles.push('El Clasico', 'Clash of Titans', 'Crown Clash');
+  if (t1 === 'CSK-RCB') titles.push('Southern Derby', 'Kaveri Derby', 'Royal Showdown');
+  if (t1 === 'MI-RCB') titles.push('Star Wars', 'Heavyweight Clash');
+  if (t1 === 'KKR-RCB') titles.push('High Octane', 'Fire & Ice');
+  if (t1 === 'CSK-KKR') titles.push('Champion Clash', 'Purple & Gold');
+  if (t1 === 'KKR-MI') titles.push('East vs West');
+  if (t1 === 'RCB-SRH') titles.push('Southern Showdown');
 
   // Position based
   if (homeRank < 2 && awayRank < 2) {
@@ -155,28 +152,19 @@ function getMatchTitle(homeTeam: string, awayTeam: string, matches: Match[]): st
   } else if (homeRank > 2 && awayRank > 2) {
     titles.push('Survival Fight', 'Do or Die');
   } else if ((homeRank === 0 && awayRank === sortedTeams.length - 1) || (homeRank === sortedTeams.length - 1 && awayRank === 0)) {
-    titles.push('David vs Goliath', 'Giant Killers?');
+    titles.push('David vs Goliath', 'Giant Killers');
   }
 
   // Generics (including original)
-  titles.push('The Clash', 'The Showdown', 'Blockbuster', 'Face-Off', 'Epic Encounter');
+  titles.push('The Clash', 'The Showdown', 'Blockbuster', 'Face-Off', 'Epic Encounter', 'The Greatest Rivalry');
 
   return titles[Math.floor(Math.random() * titles.length)] + '.';
 }
 
-export default function HomeTab() {
-  const [matchCenterOpen, setMatchCenterOpen] = useState(false)
-  const [allMatchesOpen, setAllMatchesOpen] = useState(false)
-  const [selectedMatch, setSelectedMatch] = useState<Match | null>(null)
-
-  const { photo: homePhoto, facing: homeFacing, name: homeRawName } = useMemo(() => pickRandomPhoto(NEXT_MATCH.home), [])
-  const { photo: awayPhoto, facing: awayFacing, name: awayRawName } = useMemo(() => pickRandomPhoto(NEXT_MATCH.away), [])
-  const matchTitle = useMemo(() => getMatchTitle(NEXT_MATCH.home.team, NEXT_MATCH.away.team, MATCHES), [])
-
-  const handleSelectMatch = (match: Match) => {
-    setAllMatchesOpen(false)
-    setSelectedMatch(match)
-  }
+function MatchHeroSlide({ match, onOpenMatchCenter }: { match: Match, onOpenMatchCenter: (m: Match) => void }) {
+  const { photo: homePhoto, facing: homeFacing, name: homeRawName } = useMemo(() => pickRandomPhoto(match.home), [match.id])
+  const { photo: awayPhoto, facing: awayFacing, name: awayRawName } = useMemo(() => pickRandomPhoto(match.away), [match.id])
+  const matchTitle = useMemo(() => getMatchTitle(match.home.team, match.away.team, MATCHES), [match.id])
 
   const splitName = (name?: string) => {
     if (!name) return { first: '', last: '' }
@@ -188,14 +176,14 @@ export default function HomeTab() {
   const awayName = splitName(awayRawName)
 
   return (
-    <div className="max-w-6xl mx-auto pb-20">
+    <div className="w-screen shrink-0 snap-center flex flex-col relative" style={{ scrollSnapStop: 'always' }}>
       {/* ── Hero — cinematic match poster ── */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: EASE }}
-        className="relative overflow-hidden flex-shrink-0 h-[55vh] md:h-screen"
-        style={{ minHeight: 500, width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginTop: '-3rem' }}
+        className="relative overflow-hidden w-full h-[55vh] md:h-screen"
+        style={{ minHeight: 500 }}
       >
         {/* ─ DARK BASE ─ */}
         <div className="absolute inset-0 bg-[#060608]" />
@@ -219,9 +207,9 @@ export default function HomeTab() {
           transition={{ delay: 0.4, duration: 2.5 }}
           style={{
             background: `
-              linear-gradient(to right, ${NEXT_MATCH.home.color}55 0%, transparent 52%),
-              radial-gradient(ellipse 60% 75% at 10% 30%, ${NEXT_MATCH.home.color}50 0%, transparent 70%),
-              radial-gradient(ellipse 55% 65% at 2% 85%, ${NEXT_MATCH.home.color}65 0%, transparent 60%)
+              linear-gradient(to right, ${match.home.color}55 0%, transparent 52%),
+              radial-gradient(ellipse 60% 75% at 10% 30%, ${match.home.color}50 0%, transparent 70%),
+              radial-gradient(ellipse 55% 65% at 2% 85%, ${match.home.color}65 0%, transparent 60%)
             `
           }}
         />
@@ -232,10 +220,10 @@ export default function HomeTab() {
           transition={{ delay: 0.5, duration: 2.5 }}
           style={{
             background: `
-              linear-gradient(to left, ${NEXT_MATCH.away.color}88 0%, ${NEXT_MATCH.away.color}55 20%, transparent 52%),
-              radial-gradient(ellipse 60% 75% at 100% 30%, ${NEXT_MATCH.away.color}66 0%, transparent 65%),
-              radial-gradient(ellipse 55% 65% at 100% 85%, ${NEXT_MATCH.away.color}88 0%, transparent 55%),
-              radial-gradient(ellipse 30% 100% at 100% 50%, ${NEXT_MATCH.away.color}55 0%, transparent 70%)
+              linear-gradient(to left, ${match.away.color}88 0%, ${match.away.color}55 20%, transparent 52%),
+              radial-gradient(ellipse 60% 75% at 100% 30%, ${match.away.color}66 0%, transparent 65%),
+              radial-gradient(ellipse 55% 65% at 100% 85%, ${match.away.color}88 0%, transparent 55%),
+              radial-gradient(ellipse 30% 100% at 100% 50%, ${match.away.color}55 0%, transparent 70%)
             `
           }}
         />
@@ -246,7 +234,7 @@ export default function HomeTab() {
           initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 0.85, scale: 1 }}
           transition={{ delay: 0.4, duration: 2.5 }}
           style={{
-            background: `radial-gradient(circle at 50% 50%, ${NEXT_MATCH.home.color} 0%, ${NEXT_MATCH.home.color}bb 40%, transparent 70%)`,
+            background: `radial-gradient(circle at 50% 50%, ${match.home.color} 0%, ${match.home.color}bb 40%, transparent 70%)`,
             filter: 'blur(35px)',
           }}
         />
@@ -255,7 +243,7 @@ export default function HomeTab() {
           initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 0.85, scale: 1 }}
           transition={{ delay: 0.5, duration: 2.5 }}
           style={{
-            background: `radial-gradient(circle at 50% 50%, ${NEXT_MATCH.away.color} 0%, ${NEXT_MATCH.away.color}bb 40%, transparent 70%)`,
+            background: `radial-gradient(circle at 50% 50%, ${match.away.color} 0%, ${match.away.color}bb 40%, transparent 70%)`,
             filter: 'blur(35px)',
           }}
         />
@@ -265,7 +253,7 @@ export default function HomeTab() {
           {homePhoto && (
             <motion.img
               src={homePhoto}
-              alt={homeRawName ?? NEXT_MATCH.home.team}
+              alt={homeRawName ?? match.home.team}
               initial={{ opacity: 0, y: 40, scaleX: homeFacing === 'left' ? -1 : 1 }}
               animate={{ opacity: 1, y: 0, scaleX: homeFacing === 'left' ? -1 : 1 }}
               transition={{ delay: 0.5, duration: 1.2, ease: EASE }}
@@ -280,7 +268,7 @@ export default function HomeTab() {
           {awayPhoto && (
             <motion.img
               src={awayPhoto}
-              alt={awayRawName ?? NEXT_MATCH.away.team}
+              alt={awayRawName ?? match.away.team}
               initial={{ opacity: 0, y: 40, scaleX: awayFacing === 'right' ? -1 : 1 }}
               animate={{ opacity: 1, y: 0, scaleX: awayFacing === 'right' ? -1 : 1 }}
               transition={{ delay: 0.6, duration: 1.2, ease: EASE }}
@@ -294,14 +282,14 @@ export default function HomeTab() {
         <div
           className="absolute inset-0 z-[11] pointer-events-none"
           style={{
-            background: `linear-gradient(to right, ${NEXT_MATCH.home.color}80 0%, ${NEXT_MATCH.home.color}55 35%, transparent 58%)`,
+            background: `linear-gradient(to right, ${match.home.color}80 0%, ${match.home.color}55 35%, transparent 58%)`,
             mixBlendMode: 'color',
           }}
         />
         <div
           className="absolute inset-0 z-[11] pointer-events-none"
           style={{
-            background: `linear-gradient(to left, ${NEXT_MATCH.away.color}cc 0%, ${NEXT_MATCH.away.color}88 18%, ${NEXT_MATCH.away.color}44 42%, transparent 60%)`,
+            background: `linear-gradient(to left, ${match.away.color}cc 0%, ${match.away.color}88 18%, ${match.away.color}44 42%, transparent 60%)`,
             mixBlendMode: 'color',
           }}
         />
@@ -325,11 +313,11 @@ export default function HomeTab() {
           transition={{ delay: 0.2, duration: 0.8, ease: EASE }}
         >
           <p className="text-[8px] font-mono text-white/35 uppercase tracking-[0.35em] mb-3">
-            Gamers United League · Season 1
+            Gamers United League · Match {match.id}
           </p>
           <div className="flex items-center gap-4">
             <motion.img
-              src={NEXT_MATCH.home.logo} alt={NEXT_MATCH.home.team}
+              src={match.home.logo} alt={match.home.team}
               className="object-contain drop-shadow-[0_0_16px_rgba(255,255,255,0.15)] pointer-events-none"
               style={{ width: 44, height: 44 }}
               initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}
@@ -342,7 +330,7 @@ export default function HomeTab() {
               {matchTitle}
             </h1>
             <motion.img
-              src={NEXT_MATCH.away.logo} alt={NEXT_MATCH.away.team}
+              src={match.away.logo} alt={match.away.team}
               className="object-contain drop-shadow-[0_0_16px_rgba(255,255,255,0.15)] pointer-events-none"
               style={{ width: 44, height: 44 }}
               initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
@@ -365,22 +353,22 @@ export default function HomeTab() {
               className="min-w-0"
             >
               <p className="text-[8px] font-mono uppercase tracking-[0.25em] text-white/40 truncate mb-0.5">
-                {NEXT_MATCH.home.manager}
+                {match.home.manager}
               </p>
               {homeName.first && (
                 <p className="text-sm font-light text-white/65 leading-none tracking-wide">{homeName.first}</p>
               )}
               <p
                 className="text-3xl font-black tracking-tight text-white leading-none"
-                style={{ textShadow: `0 0 20px ${NEXT_MATCH.home.color}88, 0 2px 4px rgba(0,0,0,0.9)` }}
+                style={{ textShadow: `0 0 20px ${match.home.color}88, 0 2px 4px rgba(0,0,0,0.9)` }}
               >
                 {homeName.last}
               </p>
               <p
                 className="text-[8px] font-mono uppercase tracking-widest mt-1"
-                style={{ color: NEXT_MATCH.home.color, textShadow: `0 0 10px ${NEXT_MATCH.home.color}` }}
+                style={{ color: match.home.color, textShadow: `0 0 10px ${match.home.color}` }}
               >
-                {NEXT_MATCH.home.team}
+                {match.home.team}
               </p>
             </motion.div>
 
@@ -391,22 +379,22 @@ export default function HomeTab() {
               className="text-right min-w-0"
             >
               <p className="text-[8px] font-mono uppercase tracking-[0.25em] text-white/40 truncate mb-0.5">
-                {NEXT_MATCH.away.manager}
+                {match.away.manager}
               </p>
               {awayName.first && (
                 <p className="text-sm font-light text-white/65 leading-none tracking-wide">{awayName.first}</p>
               )}
               <p
                 className="text-3xl font-black tracking-tight text-white leading-none"
-                style={{ textShadow: `0 0 20px ${NEXT_MATCH.away.color}88, 0 2px 4px rgba(0,0,0,0.9)` }}
+                style={{ textShadow: `0 0 20px ${match.away.color}88, 0 2px 4px rgba(0,0,0,0.9)` }}
               >
                 {awayName.last}
               </p>
               <p
                 className="text-[8px] font-mono uppercase tracking-widest mt-1"
-                style={{ color: NEXT_MATCH.away.color, textShadow: `0 0 10px ${NEXT_MATCH.away.color}` }}
+                style={{ color: match.away.color, textShadow: `0 0 10px ${match.away.color}` }}
               >
-                {NEXT_MATCH.away.team}
+                {match.away.team}
               </p>
             </motion.div>
 
@@ -419,16 +407,43 @@ export default function HomeTab() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.1, duration: 0.6, ease: EASE }}
-        className="flex flex-col items-center gap-2 py-6 px-4"
+        className="flex flex-col items-center gap-2 py-6 px-4 w-full"
       >
-        <p className="text-[8px] font-mono text-white/30 uppercase tracking-[0.3em]">{NEXT_MATCH.venue}</p>
+        <p className="text-[8px] font-mono text-white/30 uppercase tracking-[0.3em]">{match.venue}</p>
         <button
-          onClick={() => setMatchCenterOpen(true)}
+          onClick={() => onOpenMatchCenter(match)}
           className="w-full max-w-sm py-4 bg-white text-black rounded-2xl font-bold text-sm tracking-tight hover:bg-white/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(255,255,255,0.08)]"
         >
           Match Center <ArrowRight className="w-4 h-4" />
         </button>
       </motion.div>
+    </div>
+  )
+}
+
+export default function HomeTab() {
+  const [matchCenterMatch, setMatchCenterMatch] = useState<Match | null>(null)
+  const [allMatchesOpen, setAllMatchesOpen] = useState(false)
+  const [selectedMatch, setSelectedMatch] = useState<Match | null>(null)
+
+  const upcomingMatches = useMemo(() => MATCHES.filter(m => m.status === 'upcoming').slice(0, 5), [])
+
+  const handleSelectMatch = (match: Match) => {
+    setAllMatchesOpen(false)
+    setSelectedMatch(match)
+  }
+
+  return (
+    <div className="max-w-6xl mx-auto pb-20 overflow-hidden">
+      {/* ── Hero Carousel ── */}
+      <div 
+        className="flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+        style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginTop: '-3rem', msOverflowStyle: 'none', scrollbarWidth: 'none' }}
+      >
+        {upcomingMatches.map((match) => (
+          <MatchHeroSlide key={match.id} match={match} onOpenMatchCenter={setMatchCenterMatch} />
+        ))}
+      </div>
 
       {/* ── Rest of page ── */}
       <div className="space-y-24">
@@ -537,8 +552,8 @@ export default function HomeTab() {
       </div>{/* end space-y-24 */}
 
       {/* ── Modals ── */}
-      <Modal open={matchCenterOpen} onClose={() => setMatchCenterOpen(false)} title={`Match ${NEXT_MATCH.id} · Match Center`} fullScreen>
-        <MatchCenterScreen match={NEXT_MATCH} />
+      <Modal open={!!matchCenterMatch} onClose={() => setMatchCenterMatch(null)} title={matchCenterMatch ? `Match ${matchCenterMatch.id} · Match Center` : ''} fullScreen>
+        {matchCenterMatch && <MatchCenterScreen match={matchCenterMatch} />}
       </Modal>
 
       <Modal open={allMatchesOpen} onClose={() => setAllMatchesOpen(false)} title="All Matches" fullScreen>
