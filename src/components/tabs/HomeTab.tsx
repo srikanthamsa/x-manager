@@ -137,17 +137,14 @@ function getMatchTitle(homeTeam: string, awayTeam: string, matches: Match[]): st
   const titles: string[] = [];
   const t1 = [homeTeam, awayTeam].sort().join('-');
 
-  // Specific Internet/Meme Rivalries & Star Power Matchups
-  if (t1 === 'CSK-MI') titles.push('Thala vs Hitman', 'El Clasico', 'Clash of Titans');
-  if (t1 === 'CSK-RCB') titles.push('Thala vs King', 'Southern Derby', 'Royal Showdown');
-  if (t1 === 'CSK-KKR') titles.push('Thala vs Kung Fu Pandya', 'Champion Clash', 'Yellove & Purple');
-  if (t1 === 'CSK-SRH') titles.push('Thala vs Rawalpindi Express', 'Southern Showdown', 'The Universe Boss vs Thala');
-  if (t1 === 'MI-RCB') titles.push('King vs Hitman', 'Star Wars', 'Heavyweight Clash');
-  if (t1 === 'KKR-RCB') titles.push('King vs Kung Fu Pandya', 'High Octane', 'Fire & Ice', 'The Greatest Rivalry');
-  if (t1 === 'RCB-SRH') titles.push('King vs The Boss', 'South Clash', 'Lala vs Rawalpindi Express');
-  if (t1 === 'KKR-MI') titles.push('Hitman vs Kung Fu Pandya', 'East vs West');
-  if (t1 === 'MI-SRH') titles.push('Cummo vs The Boss', 'Pace vs Power', 'Rawalpindi Express vs Hitman');
-  if (t1 === 'KKR-SRH') titles.push('Kung Fu Pandya vs The Universe Boss', 'Gayle Storm', 'Rawalpindi Express vs Kung Fu Pandya');
+  // Specific Internet/Meme Rivalries
+  if (t1 === 'CSK-MI') titles.push('El Clasico', 'Clash of Titans', 'Crown Clash');
+  if (t1 === 'CSK-RCB') titles.push('Southern Derby', 'Kaveri Derby', 'Royal Showdown');
+  if (t1 === 'MI-RCB') titles.push('Star Wars', 'Heavyweight Clash');
+  if (t1 === 'KKR-RCB') titles.push('High Octane', 'Fire & Ice');
+  if (t1 === 'CSK-KKR') titles.push('Champion Clash', 'Purple & Gold');
+  if (t1 === 'KKR-MI') titles.push('East vs West');
+  if (t1 === 'RCB-SRH') titles.push('Southern Showdown');
 
   // Position based
   if (homeRank < 2 && awayRank < 2) {
