@@ -42,6 +42,8 @@ export default function HlsVideo({ src, className = '', style }: HlsVideoProps) 
         ...style,
         opacity: ready ? 1 : 0,
         transition: 'opacity 1.5s ease',
+        filter: 'blur(3px) brightness(0.8)',
+        transform: 'scale(1.04)', // prevent blurred edges
       }}
       autoPlay
       loop

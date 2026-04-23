@@ -44,7 +44,7 @@ function App() {
           src={HLS_BG}
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-black/40" />
         
         {/* Animated Blobs */}
         <div 

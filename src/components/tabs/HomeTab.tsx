@@ -155,25 +155,32 @@ export default function HomeTab() {
             return (
           <>
           <div className="flex-1 relative overflow-hidden">
-            {/* Color glow — transparent at top, full intensity at 50% height, stays full to bottom */}
+            {/* Dramatic spotlight — radial glow from player's feet, sweeps upward */}
             <motion.div
               className="absolute inset-0 pointer-events-none z-0"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 2 }}
-              style={{ background: `linear-gradient(to bottom, transparent 0%, ${NEXT_MATCH.home.color}44 50%, ${NEXT_MATCH.home.color}77 100%)` }}
+              animate={{ opacity: [0, 1, 0.85, 1] }}
+              transition={{ delay: 0.6, duration: 3, times: [0, 0.4, 0.7, 1] }}
+              style={{
+                background: [
+                  `radial-gradient(ellipse 110% 65% at 80% 115%, ${NEXT_MATCH.home.color}80 0%, ${NEXT_MATCH.home.color}22 45%, transparent 68%)`,
+                  `linear-gradient(to top, ${NEXT_MATCH.home.color}25 0%, transparent 55%)`,
+                ].join(', '),
+              }}
             />
             {homePhoto && (
               <motion.img
                 src={homePhoto}
                 alt={NEXT_MATCH.home.captain ?? NEXT_MATCH.home.team}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 50, scaleX: homeFacing === 'left' ? -1 : 1 }}
+                animate={{ opacity: 1, y: 0, scaleX: homeFacing === 'left' ? -1 : 1 }}
                 transition={{ delay: 0.5, duration: 1.1, ease: EASE }}
                 className="absolute bottom-0 right-0 h-full object-contain object-bottom z-10"
-                style={{ transform: homeFacing === 'left' ? 'scaleX(-1)' : undefined }}
+                style={{ mixBlendMode: 'luminosity' }}
               />
             )}
+            {/* Color layer — tints the player with team color via blend */}
+            <div className="absolute inset-0 z-[11] pointer-events-none" style={{ background: NEXT_MATCH.home.color, mixBlendMode: 'color', opacity: 0.6 }} />
             <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-20" />
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -230,25 +237,32 @@ export default function HomeTab() {
 
           {/* Away player — wants to face LEFT toward center */}
           <div className="flex-1 relative overflow-hidden">
-            {/* Color glow — transparent at top, full intensity at 50% height, stays full to bottom */}
+            {/* Dramatic spotlight — radial glow from player's feet, sweeps upward */}
             <motion.div
               className="absolute inset-0 pointer-events-none z-0"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 2 }}
-              style={{ background: `linear-gradient(to bottom, transparent 0%, ${NEXT_MATCH.away.color}44 50%, ${NEXT_MATCH.away.color}77 100%)` }}
+              animate={{ opacity: [0, 1, 0.85, 1] }}
+              transition={{ delay: 0.7, duration: 3, times: [0, 0.4, 0.7, 1] }}
+              style={{
+                background: [
+                  `radial-gradient(ellipse 110% 65% at 20% 115%, ${NEXT_MATCH.away.color}80 0%, ${NEXT_MATCH.away.color}22 45%, transparent 68%)`,
+                  `linear-gradient(to top, ${NEXT_MATCH.away.color}25 0%, transparent 55%)`,
+                ].join(', '),
+              }}
             />
             {awayPhoto && (
               <motion.img
                 src={awayPhoto}
                 alt={NEXT_MATCH.away.captain ?? NEXT_MATCH.away.team}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 50, scaleX: awayFacing === 'right' ? -1 : 1 }}
+                animate={{ opacity: 1, y: 0, scaleX: awayFacing === 'right' ? -1 : 1 }}
                 transition={{ delay: 0.6, duration: 1.1, ease: EASE }}
                 className="absolute bottom-0 left-0 h-full object-contain object-bottom z-10"
-                style={{ transform: awayFacing === 'right' ? 'scaleX(-1)' : undefined }}
+                style={{ mixBlendMode: 'luminosity' }}
               />
             )}
+            {/* Color layer — tints the player with team color via blend */}
+            <div className="absolute inset-0 z-[11] pointer-events-none" style={{ background: NEXT_MATCH.away.color, mixBlendMode: 'color', opacity: 0.6 }} />
             <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-20" />
             <motion.div
               initial={{ opacity: 0, x: 20 }}
