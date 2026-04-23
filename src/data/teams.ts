@@ -28,6 +28,7 @@ export interface TeamData {
   captainFacing?: 'left' | 'right'
   captainPhoto2?: string
   captainFacing2?: 'left' | 'right'
+  captain2?: string
 }
 
 export const TEAMS: Record<string, TeamData> = {
@@ -44,6 +45,7 @@ export const TEAMS: Record<string, TeamData> = {
     captainFacing: 'right',
     captainPhoto2: iyerImg,
     captainFacing2: 'left',
+    captain2: 'Shreyas Iyer',
   },
   KKR: {
     name: 'Kolkata Knight Riders',
@@ -58,6 +60,7 @@ export const TEAMS: Record<string, TeamData> = {
     captainFacing: 'right',
     captainPhoto2: pandyaImg,
     captainFacing2: 'right',
+    captain2: 'Hardik Pandya',
   },
   MI: {
     name: 'Mumbai Indians',
@@ -72,6 +75,7 @@ export const TEAMS: Record<string, TeamData> = {
     captainFacing: 'right',
     captainPhoto2: rohitImg,
     captainFacing2: 'right',
+    captain2: 'Rohit Sharma',
   },
   RCB: {
     name: 'Royal Challengers Bengaluru',
@@ -86,6 +90,7 @@ export const TEAMS: Record<string, TeamData> = {
     captainFacing: 'left',
     captainPhoto2: afridiImg,
     captainFacing2: 'left',
+    captain2: 'Shahid Afridi',
   },
   SRH: {
     name: 'Sunrisers Hyderabad',
@@ -100,5 +105,6 @@ export const TEAMS: Record<string, TeamData> = {
     captainFacing: 'right',
     captainPhoto2: kishanImg,
     captainFacing2: 'right',
+    captain2: 'Ishan Kishan',
   },
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'motion/react'
 import { Zap, ArrowRight } from 'lucide-react'
 import trophyImg from '../../assets/trophy.png'
@@ -101,11 +101,64 @@ function FranchiseWheel({ managers, S, cx, cy, r, band, logoSize }: WheelProps) 
   )
 }
 
-/** Pick the photo that naturally faces the desired direction; fall back to primary (will be flipped). */
-function pickPhoto(team: typeof NEXT_MATCH.home, want: 'left' | 'right') {
-  if (team.captainFacing === want) return { photo: team.captainPhoto!, facing: team.captainFacing }
-  if (team.captainFacing2 === want && team.captainPhoto2) return { photo: team.captainPhoto2, facing: team.captainFacing2 }
-  return { photo: team.captainPhoto!, facing: team.captainFacing ?? 'right' }
+/** Pick a random player photo between the two available for the team. */
+function pickRandomPhoto(team: typeof NEXT_MATCH.home) {
+  const useSecond = Math.random() > 0.5;
+  if (useSecond && team.captainPhoto2) {
+    return { 
+      photo: team.captainPhoto2, 
+      facing: team.captainFacing2 ?? 'right',
+      name: team.captain2 ?? team.captain
+    }
+  }
+  return { 
+    photo: team.captainPhoto!, 
+    facing: team.captainFacing ?? 'right',
+    name: team.captain
+  }
+}
+
+/** Determine a dynamic and contextual title for the match based on rivalries and current standings. */
+function getMatchTitle(homeTeam: string, awayTeam: string, matches: Match[]): string {
+  // calculate points
+  const points: Record<string, number> = {};
+  Object.keys(TEAMS).forEach(k => points[k] = 0);
+  
+  matches.forEach(m => {
+    if (m.status === 'completed' && m.winner) {
+      points[m.winner] = (points[m.winner] || 0) + 2;
+    }
+  });
+  
+  const sortedTeams = Object.keys(TEAMS).sort((a, b) => points[b] - points[a]);
+  const homeRank = sortedTeams.indexOf(homeTeam);
+  const awayRank = sortedTeams.indexOf(awayTeam);
+  
+  const titles: string[] = [];
+  const t1 = [homeTeam, awayTeam].sort().join('-');
+  
+  // Specific Internet/Meme Rivalries
+  if (t1 === 'CSK-MI') titles.push('El Clasico', 'Clash of Titans', 'The Crown Battle');
+  if (t1 === 'CSK-RCB') titles.push('Southern Derby', 'Kaveri Derby', 'The Royal Battle');
+  if (t1 === 'MI-RCB') titles.push('Star Wars', 'Battle of the Big Boys');
+  if (t1 === 'KKR-RCB') titles.push('High Octane Clash', 'Fire & Ice');
+  if (t1 === 'CSK-KKR') titles.push('Champions Clash', 'Yellow vs Purple');
+  if (t1 === 'KKR-MI') titles.push('The East-West Derby');
+  if (t1 === 'RCB-SRH') titles.push('The Southern Showdown');
+  
+  // Position based
+  if (homeRank < 2 && awayRank < 2) {
+    titles.push('Top of the Table Clash', 'Battle for Supremacy');
+  } else if (homeRank > 2 && awayRank > 2) {
+    titles.push('Survival Battle', 'Do or Die');
+  } else if ((homeRank === 0 && awayRank === sortedTeams.length - 1) || (homeRank === sortedTeams.length - 1 && awayRank === 0)) {
+    titles.push('David vs Goliath');
+  }
+  
+  // Generics (including original)
+  titles.push('The Clash', 'The Showdown', 'Blockbuster Match', 'Face-Off', 'Epic Encounter');
+  
+  return titles[Math.floor(Math.random() * titles.length)] + '.';
 }
 
 export default function HomeTab() {
@@ -113,8 +166,9 @@ export default function HomeTab() {
   const [allMatchesOpen, setAllMatchesOpen] = useState(false)
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null)
 
-  const { photo: homePhoto, facing: homeFacing } = pickPhoto(NEXT_MATCH.home, 'right')
-  const { photo: awayPhoto, facing: awayFacing } = pickPhoto(NEXT_MATCH.away, 'left')
+  const { photo: homePhoto, facing: homeFacing, name: homeRawName } = useMemo(() => pickRandomPhoto(NEXT_MATCH.home), [])
+  const { photo: awayPhoto, facing: awayFacing, name: awayRawName } = useMemo(() => pickRandomPhoto(NEXT_MATCH.away), [])
+  const matchTitle = useMemo(() => getMatchTitle(NEXT_MATCH.home.team, NEXT_MATCH.away.team, MATCHES), [])
 
   const handleSelectMatch = (match: Match) => {
     setAllMatchesOpen(false)
@@ -127,8 +181,8 @@ export default function HomeTab() {
     const last = parts.pop()!
     return { first: parts.join(' '), last }
   }
-  const homeName = splitName(NEXT_MATCH.home.captain)
-  const awayName = splitName(NEXT_MATCH.away.captain)
+  const homeName = splitName(homeRawName)
+  const awayName = splitName(awayRawName)
 
   return (
     <div className="max-w-6xl mx-auto pb-20">
@@ -183,12 +237,32 @@ export default function HomeTab() {
           }}
         />
 
+        {/* ─ INTENSE DRAMATIC SMOKE / GLOW ─ */}
+        <motion.div
+          className="absolute bottom-0 left-[5%] w-[40%] h-[70%] z-[9] pointer-events-none"
+          initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 0.85, scale: 1 }}
+          transition={{ delay: 0.4, duration: 2.5 }}
+          style={{
+            background: `radial-gradient(circle at 50% 50%, ${NEXT_MATCH.home.color} 0%, ${NEXT_MATCH.home.color}bb 40%, transparent 70%)`,
+            filter: 'blur(35px)',
+          }}
+        />
+        <motion.div
+          className="absolute bottom-0 right-[5%] w-[40%] h-[70%] z-[9] pointer-events-none"
+          initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 0.85, scale: 1 }}
+          transition={{ delay: 0.5, duration: 2.5 }}
+          style={{
+            background: `radial-gradient(circle at 50% 50%, ${NEXT_MATCH.away.color} 0%, ${NEXT_MATCH.away.color}bb 40%, transparent 70%)`,
+            filter: 'blur(35px)',
+          }}
+        />
+
         {/* ─ HOME PLAYER — proportional width fill, no height-stretch ─ */}
-        <div className="absolute bottom-0 left-0 w-1/2 z-10 overflow-hidden" style={{ height: '92%' }}>
+        <div className="absolute bottom-0 left-0 w-1/2 z-10 overflow-hidden" style={{ height: '92%', maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}>
           {homePhoto && (
             <motion.img
               src={homePhoto}
-              alt={NEXT_MATCH.home.captain ?? NEXT_MATCH.home.team}
+              alt={homeRawName ?? NEXT_MATCH.home.team}
               initial={{ opacity: 0, y: 40, scaleX: homeFacing === 'left' ? -1 : 1 }}
               animate={{ opacity: 1, y: 0, scaleX: homeFacing === 'left' ? -1 : 1 }}
               transition={{ delay: 0.5, duration: 1.2, ease: EASE }}
@@ -199,11 +273,11 @@ export default function HomeTab() {
         </div>
 
         {/* ─ AWAY PLAYER — proportional width fill, no height-stretch ─ */}
-        <div className="absolute bottom-0 right-0 w-1/2 z-10 overflow-hidden" style={{ height: '92%' }}>
+        <div className="absolute bottom-0 right-0 w-1/2 z-10 overflow-hidden" style={{ height: '92%', maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}>
           {awayPhoto && (
             <motion.img
               src={awayPhoto}
-              alt={NEXT_MATCH.away.captain ?? NEXT_MATCH.away.team}
+              alt={awayRawName ?? NEXT_MATCH.away.team}
               initial={{ opacity: 0, y: 40, scaleX: awayFacing === 'right' ? -1 : 1 }}
               animate={{ opacity: 1, y: 0, scaleX: awayFacing === 'right' ? -1 : 1 }}
               transition={{ delay: 0.6, duration: 1.2, ease: EASE }}
@@ -248,7 +322,7 @@ export default function HomeTab() {
           transition={{ delay: 0.2, duration: 0.8, ease: EASE }}
         >
           <p className="text-[8px] font-mono text-white/35 uppercase tracking-[0.35em] mb-3">
-            Fantasy Cricket League · Season 1
+            Gamers United League · Season 1
           </p>
           <div className="flex items-center gap-4">
             <motion.img
@@ -259,10 +333,10 @@ export default function HomeTab() {
               transition={{ delay: 0.55, duration: 0.8, ease: EASE }}
             />
             <h1
-              className="text-5xl md:text-6xl font-black tracking-tighter text-white leading-none"
+              className="text-5xl md:text-6xl font-black tracking-tighter text-white leading-none text-center"
               style={{ textShadow: '0 4px 40px rgba(0,0,0,0.95)' }}
             >
-              The Clash.
+              {matchTitle}
             </h1>
             <motion.img
               src={NEXT_MATCH.away.logo} alt={NEXT_MATCH.away.team}

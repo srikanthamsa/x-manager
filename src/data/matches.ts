@@ -11,6 +11,7 @@ export interface MatchTeam {
   captainFacing?: 'left' | 'right'
   captainPhoto2?: string
   captainFacing2?: 'left' | 'right'
+  captain2?: string
 }
 
 const t = (key: keyof typeof TEAMS): MatchTeam => ({
@@ -24,6 +25,7 @@ const t = (key: keyof typeof TEAMS): MatchTeam => ({
   captainFacing: TEAMS[key].captainFacing,
   captainPhoto2: TEAMS[key].captainPhoto2,
   captainFacing2: TEAMS[key].captainFacing2,
+  captain2: TEAMS[key].captain2,
 })
 
 export interface Match {
