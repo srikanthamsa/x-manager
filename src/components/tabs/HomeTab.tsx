@@ -192,7 +192,14 @@ export default function HomeTab() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: EASE }}
         className="relative overflow-hidden flex-shrink-0 h-[55vh] md:h-screen"
-        style={{ minHeight: 500, width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginTop: '-3rem' }}
+        style={{ 
+          minHeight: 500, 
+          width: '100vw', 
+          marginLeft: 'calc(-50vw + 50%)', 
+          marginTop: '-3rem',
+          maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
+        }}
       >
         {/* ─ DARK BASE ─ */}
         <div className="absolute inset-0 bg-[#060608]" />
