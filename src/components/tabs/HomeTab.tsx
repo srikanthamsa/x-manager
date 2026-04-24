@@ -312,8 +312,10 @@ export default function HomeTab() {
         {/* ─ TOP FADE ─ */}
         <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-black/90 via-black/40 to-transparent z-20 pointer-events-none" />
 
-        {/* ─ BOTTOM FADE ─ */}
-        <div className="absolute inset-x-0 bottom-0 h-[28%] bg-gradient-to-t from-black via-black/80 to-transparent z-20 pointer-events-none" />
+        {/* ─ BOTTOM FADE — z-[50] sits above text (z-30) so entire card bottom fades ─ */}
+        <div className="absolute inset-x-0 bottom-0 h-[45%] pointer-events-none z-[50]" style={{
+          background: 'linear-gradient(to top, #000000 0%, rgba(0,0,0,0.88) 20%, rgba(0,0,0,0.55) 50%, transparent 100%)'
+        }} />
 
         {/* ─ HEADER TEXT ─ */}
         <motion.div
