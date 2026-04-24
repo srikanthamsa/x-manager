@@ -161,6 +161,57 @@ function getMatchTitle(homeTeam: string, awayTeam: string, matches: Match[]): st
   return titles[Math.floor(Math.random() * titles.length)] + '.';
 }
 
+function VenueAmbience({ venue }: { venue: string }) {
+  const v = (venue || '').toLowerCase();
+  
+  if (v.includes('mumbai')) {
+    return (
+      <div className="absolute inset-0 z-[15] pointer-events-none overflow-hidden mix-blend-screen opacity-70">
+        <div className="absolute top-0 right-10 w-96 h-96 bg-blue-500/20 blur-[100px] rounded-full" />
+        <div className="absolute bottom-10 left-20 w-80 h-80 bg-cyan-400/10 blur-[80px] rounded-full" />
+      </div>
+    );
+  }
+  
+  if (v.includes('chennai')) {
+    return (
+      <div className="absolute inset-0 z-[15] pointer-events-none overflow-hidden mix-blend-overlay opacity-90">
+        <div className="absolute -top-20 -right-20 w-[600px] h-[600px] bg-yellow-500/30 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-orange-600/20 to-transparent" />
+      </div>
+    );
+  }
+  
+  if (v.includes('bengaluru')) {
+    return (
+      <div className="absolute inset-0 z-[15] pointer-events-none overflow-hidden opacity-60">
+        <div className="absolute inset-0 bg-green-500/10 mix-blend-color" />
+        <div className="absolute top-0 inset-x-0 h-[200%] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQwIj48cmVjdCB3aWR0aD0iMiIgaGVpZ2h0PSIyMCIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIwLjA4Ii8+PC9zdmc+')] mix-blend-overlay" style={{ backgroundSize: '4px 40px' }} />
+      </div>
+    );
+  }
+
+  if (v.includes('kolkata')) {
+    return (
+      <div className="absolute inset-0 z-[15] pointer-events-none overflow-hidden mix-blend-screen opacity-80">
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/20 blur-[100px] rounded-full" />
+        <div className="absolute bottom-0 right-0 w-full h-2/3 bg-gradient-to-tl from-pink-500/10 to-transparent" />
+      </div>
+    );
+  }
+
+  if (v.includes('hyderabad')) {
+    return (
+      <div className="absolute inset-0 z-[15] pointer-events-none overflow-hidden mix-blend-overlay opacity-80">
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-transparent" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-amber-500/20 blur-[120px] rounded-full" />
+      </div>
+    );
+  }
+  
+  return null;
+}
+
 export default function HomeTab() {
   const [matchCenterOpen, setMatchCenterOpen] = useState(false)
   const [allMatchesOpen, setAllMatchesOpen] = useState(false)
@@ -264,8 +315,8 @@ export default function HomeTab() {
           }}
         />
 
-        {/* ─ HOME PLAYER — proportional width fill, no height-stretch ─ */}
-        <div className="absolute bottom-0 left-0 w-1/2 z-10 overflow-hidden" style={{ height: '92%', maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}>
+        {/* ─ HOME PLAYER — capped size for desktop widescreen ─ */}
+        <div className="absolute bottom-0 left-0 w-1/2 lg:w-full lg:max-w-[480px] lg:left-[5%] xl:left-[10%] z-10 overflow-hidden" style={{ height: '92%', maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}>
           {homePhoto && (
             <motion.img
               src={homePhoto}
@@ -279,8 +330,8 @@ export default function HomeTab() {
           )}
         </div>
 
-        {/* ─ AWAY PLAYER — proportional width fill, no height-stretch ─ */}
-        <div className="absolute bottom-0 right-0 w-1/2 z-10 overflow-hidden" style={{ height: '92%', maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}>
+        {/* ─ AWAY PLAYER — capped size for desktop widescreen ─ */}
+        <div className="absolute bottom-0 right-0 w-1/2 lg:w-full lg:max-w-[480px] lg:right-[5%] xl:right-[10%] z-10 overflow-hidden" style={{ height: '92%', maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}>
           {awayPhoto && (
             <motion.img
               src={awayPhoto}
@@ -322,6 +373,9 @@ export default function HomeTab() {
         {/* ─ BOTTOM FADE ─ */}
         <div className="absolute inset-x-0 bottom-0 h-[28%] bg-gradient-to-t from-black via-black/80 to-transparent z-20 pointer-events-none" />
 
+        {/* ─ VENUE AMBIENCE ─ */}
+        <VenueAmbience venue={NEXT_MATCH.venue} />
+
         {/* ─ HEADER TEXT ─ */}
         <motion.div
           className="absolute top-0 inset-x-0 z-30 pt-10 flex flex-col items-center pointer-events-none"
@@ -359,8 +413,8 @@ export default function HomeTab() {
         </motion.div>
 
         {/* ─ BOTTOM INFO ROW ─ */}
-        <div className="absolute bottom-0 inset-x-0 z-30 pb-5 px-5">
-          <div className="flex items-end justify-between gap-2">
+        <div className="absolute bottom-0 inset-x-0 z-30 pb-5 px-5 lg:mx-auto lg:max-w-6xl">
+          <div className="flex items-end justify-between gap-2 lg:px-12">
 
             {/* Home player name */}
             <motion.div
